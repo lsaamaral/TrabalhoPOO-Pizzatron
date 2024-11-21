@@ -7,3 +7,4 @@ Participantes: Bruno Amaral, Guilherme Paredes, Isabella Amaral e Julia Camelo
 pip install pymongo
 pip install datetime
 pip install bcrypt
+pip install pygame
