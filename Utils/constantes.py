@@ -1,0 +1,6 @@
+# Cores e tamanhos Pygame
+WIDTH, HEIGHT = 1200, 750
+BRANCO = (255, 255, 255)
+PRETO = (0, 0, 0)
+VERDE = (0, 200, 0)
+TAMANHO_FONTE = 36
