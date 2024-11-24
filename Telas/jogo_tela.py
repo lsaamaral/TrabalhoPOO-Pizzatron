@@ -30,10 +30,14 @@ class JogoTela(Tela):
         self.suportecaixa = pygame.transform.scale(self.suportecaixa, (330, 497))
         self.suportetomate = pygame.image.load("Assets/SuporteMolhos/Tomate.png")
         self.suportetomate = pygame.transform.scale(self.suportetomate, (120, 160))
-        self.suportetomatefrente = pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png")
-        self.suportetomatefrente = pygame.transform.scale(self.suportetomatefrente, (110, 130))
         self.suportehot = pygame.image.load("Assets/SuporteMolhos/Hot.png")
         self.suportehot = pygame.transform.scale(self.suportehot, (37, 204))
+        self.molhotomate = pygame.image.load("Assets/Molhos/Tomate.png")
+        self.molhotomate = pygame.transform.scale(self.molhotomate, (250, 320))
+        self.molhohot = pygame.image.load("Assets/Molhos/Hot.png")
+        self.molhohot = pygame.transform.scale(self.molhohot, (245, 310))
+        self.suportetomatefrente = pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png")
+        self.suportetomatefrente = pygame.transform.scale(self.suportetomatefrente, (110, 130))
 
         self.cozinha_pos = (-10,-10)
         self.telao_pos = (610, 42)
@@ -45,8 +49,10 @@ class JogoTela(Tela):
         self.cubapeixe_pos = (1050, 395)
         self.suportecaixa_pos = (-50, 222)
         self.suportetomate_pos = (8, 336)
-        self.suportetomatefrente_pos = (15, 340)
         self.suportehot_pos = (200, 290)
+        self.molhotomate_pos = (-30, 200)
+        self.molhohot_pos = (60, 200)
+        self.suportetomatefrente_pos = (15, 340)
 
         self.running = True
 
@@ -61,8 +67,10 @@ class JogoTela(Tela):
         self.tela.blit(self.cubapeixe, self.cubapeixe_pos)
         self.tela.blit(self.suportecaixa, self.suportecaixa_pos)
         self.tela.blit(self.suportetomate, self.suportetomate_pos)
-        self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
         self.tela.blit(self.suportehot, self.suportehot_pos)
+        self.tela.blit(self.molhotomate, self.molhotomate_pos)
+        self.tela.blit(self.molhohot, self.molhohot_pos)
+        self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
 
     def handle_input(self, evento):
         if evento.type == pygame.KEYDOWN:
