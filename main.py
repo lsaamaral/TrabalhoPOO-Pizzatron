@@ -3,8 +3,9 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 import pygame
 from Utils.database import BancoDeDados
-from Scenes.login_tela import LoginTela
-from Scenes.menu_tela import MenuTela
+from Telas.login_tela import LoginTela
+from Telas.menu_tela import MenuTela
+from Telas.jogo_tela import JogoTela
 
 def main():
     pygame.init()
@@ -17,8 +18,10 @@ def main():
     login_tela = LoginTela(tela, banco)
     usuario = None
     menu_tela = None
+    jogo_tela = None
 
     while True:
+        tela.fill((255, 255, 255))
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
@@ -32,13 +35,23 @@ def main():
                         menu_tela = MenuTela(tela, usuario)
             elif tela_atual == "menu" and menu_tela:
                 acao = menu_tela.handle_input(evento)
-                if acao == "play":
-                    print("Iniciar jogo...")
+                if acao == "play":  
+                    tela_atual = "jogo"
+                    jogo_tela = JogoTela(tela)
+                elif acao == "logout":
+                    usuario = None
+                    tela_atual = "login"
+            elif tela_atual == "jogo" and jogo_tela:
+                jogo_tela.handle_input(evento)
+                if not jogo_tela.running:
+                    tela_atual = "menu"
 
         if tela_atual == "login":
             login_tela.draw()
         elif tela_atual == "menu" and menu_tela:
             menu_tela.draw()
+        elif tela_atual == "jogo":
+            jogo_tela.draw()
 
         pygame.display.update()
         clock.tick(60)

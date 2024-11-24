@@ -1,7 +1,8 @@
 import pygame
 from Entities.usuario import Usuario
+from Telas.tela import Tela
 
-class LoginTela():
+class LoginTela(Tela):
     def __init__(self, tela, banco):
         self.tela = tela
         self.banco = banco
@@ -18,8 +19,8 @@ class LoginTela():
         senha_box = self.fonte.render(f"Senha: {'*' * len(self.inputs['senha'])}", True, (0, 0, 0))
         erro_msg = self.fonte.render(self.msg_erro, True, (255, 0, 0))
 
-        pygame.draw.rect(self.tela, (200, 200, 200), (300, 200, 200, 40))
-        pygame.draw.rect(self.tela, (200, 200, 200), (300, 300, 200, 40))
+        pygame.draw.rect(self.tela, (255, 255, 255), (300, 200, 300, 70))
+        pygame.draw.rect(self.tela, (255, 255, 255), (300, 300, 300, 70))
         self.tela.blit(login_box, (310, 210))
         self.tela.blit(senha_box, (310, 310))
         self.tela.blit(erro_msg, (300, 400))
