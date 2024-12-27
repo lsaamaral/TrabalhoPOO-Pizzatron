@@ -1,5 +1,6 @@
 import pygame
 from Telas.tela import Tela
+from Entities.molho import Molho
 
 class JogoTela(Tela):
     def __init__(self, tela):
@@ -32,13 +33,16 @@ class JogoTela(Tela):
         self.suportetomate = pygame.transform.scale(self.suportetomate, (120, 160))
         self.suportehot = pygame.image.load("Assets/SuporteMolhos/Hot.png")
         self.suportehot = pygame.transform.scale(self.suportehot, (37, 204))
-        self.molhotomate = pygame.image.load("Assets/Molhos/Tomate.png")
-        self.molhotomate = pygame.transform.scale(self.molhotomate, (250, 320))
-        self.molhohot = pygame.image.load("Assets/Molhos/Hot.png")
-        self.molhohot = pygame.transform.scale(self.molhohot, (245, 310))
+        self.molhotomate = Molho(tela, "Assets/Molhos/Tomate.png", (250, 320))
+        self.apertar_molhotomate = pygame.image.load("Assets/Molhos/Apertar_Tomate.png")
+        self.apertar_molhotomate = pygame.transform.scale(self.apertar_molhotomate, (250, 320))
+        self.molhohot = Molho(tela, "Assets/Molhos/Hot.png", (245, 310))
+        self.apertar_molhohot = pygame.image.load("Assets/Molhos/Apertar_Hot.png")
+        self.apertar_molhohot = pygame.transform.scale(self.apertar_molhohot, (245, 310))
         self.suportetomatefrente = pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png")
         self.suportetomatefrente = pygame.transform.scale(self.suportetomatefrente, (110, 130))
 
+        # Posições
         self.cozinha_pos = (-10,-10)
         self.telao_pos = (610, 42)
         self.bancada_pos = (-10, 410)
@@ -54,9 +58,30 @@ class JogoTela(Tela):
         self.molhohot_pos = (60, 200)
         self.suportetomatefrente_pos = (15, 340)
 
+        # Posição dos molhos
+        self.rect_molhotomate = pygame.Rect(
+            self.molhotomate_pos[0] + 100,  # Ajuste para esquerda/direita
+            self.molhotomate_pos[1] + 100,  # Ajuste para cima/baixo
+            self.molhotomate.get_width() - 200,  # Reduz largura
+            self.molhotomate.get_height() - 155  # Reduz altura
+        )
+    
+        self.rect_molhohot = pygame.Rect(
+            self.molhohot_pos[0] + 95,
+            self.molhohot_pos[1] + 95,
+            self.molhohot.get_width() - 190,
+            self.molhohot.get_height() - 152
+        )
+
+        self.carregando_molhotomate = False
+        self.carregando_molhohot = False
+
+        self.molho_frames_tomate = self.molhotomate.animation("Assets/Molhos/Espremer_Tomate.png", 189, 96, 6)
+        self.molho_frames_hot = self.molhohot.animation("Assets/Molhos/Espremer_Hot.png", 154, 94, 8)
+
         self.running = True
 
-    def draw(self):
+    def draw(self, pos_mouse):
         self.tela.blit(self.cozinha, self.cozinha_pos)
         self.tela.blit(self.telao, self.telao_pos)
         self.tela.blit(self.bancada, self.bancada_pos)
@@ -68,12 +93,37 @@ class JogoTela(Tela):
         self.tela.blit(self.suportecaixa, self.suportecaixa_pos)
         self.tela.blit(self.suportetomate, self.suportetomate_pos)
         self.tela.blit(self.suportehot, self.suportehot_pos)
-        self.tela.blit(self.molhotomate, self.molhotomate_pos)
-        self.tela.blit(self.molhohot, self.molhohot_pos)
+
+        # Desenhando o molho de tomate
+        if not self.carregando_molhotomate:
+            self.tela.blit(self.molhotomate.get_molho(), self.molhotomate_pos)
+        else:
+            self.molhotomate.draw_animation(self.apertar_molhotomate, pos_mouse, 38, 103, self.molho_frames_tomate)
+
+        # Desenhando o molho hot
+        if not self.carregando_molhohot:
+            self.tela.blit(self.molhohot.get_molho(), self.molhohot_pos)
+        else:
+            self.molhohot.draw_animation(self.apertar_molhohot, pos_mouse, 55, 65, self.molho_frames_hot)
+            
         self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
+
 
     def handle_input(self, evento):
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_ESCAPE:
-                self.running == False
+                self.running = False
+
+        if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+            pos_mouse = pygame.mouse.get_pos()
+            
+            if self.rect_molhotomate.collidepoint(pos_mouse):
+                self.carregando_molhotomate = True
+            elif self.rect_molhohot.collidepoint(pos_mouse):
+                self.carregando_molhohot = True
+
+        if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
+            self.carregando_molhotomate = False
+            self.carregando_molhohot = False
+
         

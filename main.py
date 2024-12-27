@@ -62,13 +62,10 @@ def main():
             elif tela_atual == "jogo" and jogo_tela:
                 jogo_tela.handle_input(evento)
                 
-
-                
                 if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:  
                     ingrediente_atual = ingredientes_manager.get_ingrediente_em_clique(pos_mouse)
                     if ingrediente_atual:
                         carregando_ingrediente = True
-
                 
                 if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
                     carregando_ingrediente = False
@@ -83,9 +80,8 @@ def main():
         elif tela_atual == "menu" and menu_tela:
             menu_tela.draw()
         elif tela_atual == "jogo" and jogo_tela:
-            jogo_tela.draw()
+            jogo_tela.draw(pos_mouse)
             ingredientes_manager.draw()  
-
             
             if carregando_ingrediente and ingrediente_atual:
                 img_width, img_height = ingrediente_atual.get_size()
