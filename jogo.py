@@ -81,6 +81,7 @@ class Game(InterfaceJogo):
                 if not self.jogo_tela.running:
                     self.tela_atual = "menu"
 
+
     def update(self):
         pass  # A atualização esta sendo feita no handle input
 
@@ -92,9 +93,9 @@ class Game(InterfaceJogo):
         elif self.tela_atual == "menu" and self.menu_tela:
             self.menu_tela.draw()
         elif self.tela_atual == "jogo" and self.jogo_tela:
-            self.jogo_tela.draw(self.pos_mouse)
+            self.jogo_tela.draw()
             self.ingredientes_manager.draw()
-
+            
             if self.carregando_ingrediente and self.ingrediente_atual:
                 img_width, img_height = self.ingrediente_atual.get_size()
                 x, y = self.pos_mouse[0] - img_width // 2, self.pos_mouse[1] - img_height // 2

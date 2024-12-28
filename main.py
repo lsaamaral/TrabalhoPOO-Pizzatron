@@ -1,4 +1,4 @@
-from game import Game
+from jogo import Game
 
 def main():
     game = Game()

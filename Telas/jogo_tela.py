@@ -1,6 +1,7 @@
 import pygame
 from Telas.tela import Tela
 from Entities.molho import Molho
+from Entities.nivel import Nivel
 
 class JogoTela(Tela):
     def __init__(self, tela):
@@ -79,9 +80,11 @@ class JogoTela(Tela):
         self.molho_frames_tomate = self.molhotomate.animation("Assets/Molhos/Espremer_Tomate.png", 189, 96, 6)
         self.molho_frames_hot = self.molhohot.animation("Assets/Molhos/Espremer_Hot.png", 154, 94, 8)
 
+        self.nivel = Nivel(self.tela)
+
         self.running = True
 
-    def draw(self, pos_mouse):
+    def draw(self):
         self.tela.blit(self.cozinha, self.cozinha_pos)
         self.tela.blit(self.telao, self.telao_pos)
         self.tela.blit(self.bancada, self.bancada_pos)
@@ -93,21 +96,23 @@ class JogoTela(Tela):
         self.tela.blit(self.suportecaixa, self.suportecaixa_pos)
         self.tela.blit(self.suportetomate, self.suportetomate_pos)
         self.tela.blit(self.suportehot, self.suportehot_pos)
+        
+        self.nivel.atualizar_esteira()
+        self.nivel.desenhar_esteira()
 
         # Desenhando o molho de tomate
         if not self.carregando_molhotomate:
             self.tela.blit(self.molhotomate.get_molho(), self.molhotomate_pos)
         else:
-            self.molhotomate.draw_animation(self.apertar_molhotomate, pos_mouse, 38, 103, self.molho_frames_tomate)
+            self.molhotomate.draw_animation(self.apertar_molhotomate, pygame.mouse.get_pos(), 38, 103, self.molho_frames_tomate)
 
         # Desenhando o molho hot
         if not self.carregando_molhohot:
             self.tela.blit(self.molhohot.get_molho(), self.molhohot_pos)
         else:
-            self.molhohot.draw_animation(self.apertar_molhohot, pos_mouse, 55, 65, self.molho_frames_hot)
+            self.molhohot.draw_animation(self.apertar_molhohot, pygame.mouse.get_pos(), 55, 65, self.molho_frames_hot)
             
         self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
-
 
     def handle_input(self, evento):
         if evento.type == pygame.KEYDOWN:
@@ -125,5 +130,6 @@ class JogoTela(Tela):
         if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
             self.carregando_molhotomate = False
             self.carregando_molhohot = False
+
 
         
