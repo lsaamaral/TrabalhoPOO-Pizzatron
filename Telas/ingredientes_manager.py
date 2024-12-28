@@ -3,8 +3,8 @@ import pygame
 class IngredientesManager:
     def __init__(self, tela):
         self.tela = tela
-        self.novo_tamanho = (200, 200)
-        self.novo_tamanho2 = (100, 100)
+        self.novo_tamanho = (210, 250)
+        self.novo_tamanho2 = (110, 150)
         self.ingredientes_imgs = {
             "queijo": pygame.transform.scale(pygame.image.load("Assets/Ingredientes/Queijo1.png"), self.novo_tamanho),
             "alga": pygame.transform.scale(pygame.image.load("Assets/Ingredientes/Alga1.png"),self.novo_tamanho2),
