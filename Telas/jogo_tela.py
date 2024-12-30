@@ -11,7 +11,7 @@ class JogoTela(Tela):
         self.cozinha = pygame.image.load("Assets/Backgrounds/Cozinha.png")
         self.cozinha = pygame.transform.scale(self.cozinha, (1300, 475))
 
-        self.telao = pygame.image.load("Assets/Pedidos/Telao.png")
+        self.telao = pygame.image.load("Assets/Cardapio/Telao.png")
         self.telao = pygame.transform.scale(self.telao, (500, 375))
 
         self.bancada = pygame.image.load("Assets/Sprites/Bancada.png")
@@ -100,13 +100,11 @@ class JogoTela(Tela):
         self.nivel.atualizar_esteira()
         self.nivel.desenhar_esteira()
 
-        # Desenhando o molho de tomate
         if not self.carregando_molhotomate:
             self.tela.blit(self.molhotomate.get_molho(), self.molhotomate_pos)
         else:
             self.molhotomate.draw_animation(self.apertar_molhotomate, pygame.mouse.get_pos(), 38, 103, self.molho_frames_tomate)
 
-        # Desenhando o molho hot
         if not self.carregando_molhohot:
             self.tela.blit(self.molhohot.get_molho(), self.molhohot_pos)
         else:

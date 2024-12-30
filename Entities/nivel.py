@@ -1,11 +1,11 @@
-import random
 import pygame
+from Entities.pizza import *
 
 class Nivel():
     def __init__(self, tela):
         self.tela = tela
         self.velocidade = 4 
-        self.nivel = 1
+        self.nivel = 5
 
         self.esteira = pygame.image.load("Assets/Sprites/Esteira.png")
         self.esteira = pygame.transform.scale(self.esteira, (240, 230))
@@ -15,8 +15,13 @@ class Nivel():
 
         self.clock = pygame.time.Clock()
 
+        self.pizza_cardapio = None
+
     def get_velocidade(self):
         return self.velocidade
+    
+    def get_nivel(self):
+        return self.nivel
     
     def criar_pizza_usuario(self):
         self.pizza_borda = pygame.image.load("Assets/Pizza/Borda.png")
@@ -25,7 +30,10 @@ class Nivel():
         self.pizza_massa = pygame.transform.scale(self.pizza_massa, (295, 192))
     
     def criar_pizza_cardapio(self):
-        pass
+        self.pizza_cardapio = PizzaCardapio()
+        self.pizza_cardapio.gerar_pizza(self.nivel)
+        self.pizza_cardapio.gerar_nome()
+        self.pizza_cardapio.desenhar(self.tela)
 
     def mudar_nivel(self):
         self.nivel += 1
