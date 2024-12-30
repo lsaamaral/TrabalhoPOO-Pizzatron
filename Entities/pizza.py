@@ -85,11 +85,11 @@ class PizzaCardapio(Pizza):
 
         y_offset = 180
         texto_molho = fonte_texto.render(f"Molho {self.molho.capitalize()}", True, azul_escuro)
-        tela.blit(texto_molho, (840, 160))
+        tela.blit(texto_molho, (850, 160))
         for ingrediente, quantidade in self.ingredientes.items():
             if ingrediente != "queijo" and quantidade > 0:
                 texto_ingrediente = fonte_texto.render(f"{ingrediente.capitalize()}: {quantidade}", True, azul_escuro)
-                tela.blit(texto_ingrediente, (840, y_offset))
+                tela.blit(texto_ingrediente, (850, y_offset))
                 y_offset += 20
 
         x_offset = 610

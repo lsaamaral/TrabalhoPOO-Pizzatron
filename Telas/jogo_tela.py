@@ -100,6 +100,9 @@ class JogoTela(Tela):
         self.nivel.atualizar_esteira()
         self.nivel.desenhar_esteira()
 
+        if self.nivel.pizza_cardapio:
+            self.nivel.pizza_cardapio.desenhar(self.tela)
+
         if not self.carregando_molhotomate:
             self.tela.blit(self.molhotomate.get_molho(), self.molhotomate_pos)
         else:

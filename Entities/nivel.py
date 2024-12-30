@@ -4,7 +4,7 @@ from Entities.pizza import *
 class Nivel():
     def __init__(self, tela):
         self.tela = tela
-        self.velocidade = 4 
+        self.velocidade = 10 
         self.nivel = 5
 
         self.esteira = pygame.image.load("Assets/Sprites/Esteira.png")
@@ -15,7 +15,7 @@ class Nivel():
 
         self.clock = pygame.time.Clock()
 
-        self.pizza_cardapio = None
+        self.criar_pizza_cardapio()
 
     def get_velocidade(self):
         return self.velocidade
@@ -38,6 +38,7 @@ class Nivel():
     def mudar_nivel(self):
         self.nivel += 1
         self.velocidade += 0.5
+        self.criar_pizza_cardapio()
 
     def atualizar_esteira(self):
         novas_posicoes = []
