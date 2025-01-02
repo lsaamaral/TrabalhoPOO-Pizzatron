@@ -152,7 +152,14 @@ class JogoTela(Tela):
                         (key for key, img in self.ingredientes_manager.ingredientes_imgs.items() if img == self.ingrediente_atual),
                         None
                     )
-                    if nome_ingrediente in self.nivel.pizza_usuario.ingredientes:
+                    if nome_ingrediente == "queijo":
+                        if not self.nivel.pizza_usuario.ingredientes["queijo"]:
+                            self.nivel.pizza_usuario.ingredientes["queijo"] = True
+                            self.nivel.pizza_usuario.queijo_sprite = pygame.transform.scale(
+                                pygame.image.load("Assets/Pizza/Queijo.png"),
+                                (295, 192)
+                            )
+                    elif nome_ingrediente in self.nivel.pizza_usuario.ingredientes:
                         if isinstance(self.nivel.pizza_usuario.ingredientes[nome_ingrediente], list):
                             pos_relativa = (
                                 pos_mouse[0] - self.nivel.pizza_usuario.posicao[0],
