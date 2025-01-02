@@ -3,6 +3,7 @@ from Telas.tela import Tela
 from Entities.molho import Molho
 from Entities.nivel import Nivel
 from Entities.pizza import *
+from Entities.ingredientes import IngredientesManager
 
 class JogoTela(Tela):
     def __init__(self, tela):
@@ -68,6 +69,10 @@ class JogoTela(Tela):
         self.molho_frames_hot = self.molhohot.animation("Assets/Molhos/Espremer_Hot.png", 154, 94, 8)
 
         self.nivel = Nivel(self.tela)
+        
+        self.ingredientes_manager = IngredientesManager(self.tela)
+        self.carregando_ingrediente = False
+        self.ingrediente_atual = None
 
         self.running = True
 
@@ -103,6 +108,13 @@ class JogoTela(Tela):
         else:
             self.molhohot.draw_animation(self.apertar_molhohot, pygame.mouse.get_pos(), 55, 65, self.molho_frames_hot)
             
+        self.ingredientes_manager.draw()
+        if self.carregando_ingrediente and self.ingrediente_atual:
+                pos_mouse = pygame.mouse.get_pos()
+                img_width, img_height = self.ingrediente_atual.get_size()
+                x, y = pos_mouse[0] - img_width // 2, pos_mouse[1] - img_height // 2
+                self.tela.blit(self.ingrediente_atual, (x, y))
+
         self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
 
     def handle_input(self, evento):
@@ -112,6 +124,10 @@ class JogoTela(Tela):
 
         if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
             pos_mouse = pygame.mouse.get_pos()
+
+            self.ingrediente_atual = self.ingredientes_manager.get_ingrediente_em_clique(pos_mouse)
+            if self.ingrediente_atual:
+                self.carregando_ingrediente = True
             
             if self.rect_molhotomate.collidepoint(pos_mouse):
                 self.carregando_molhotomate = True
@@ -119,6 +135,9 @@ class JogoTela(Tela):
                 self.carregando_molhohot = True
 
         if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
+            self.carregando_ingrediente = False
+            self.ingrediente_atual = None
+
             self.carregando_molhotomate = False
             self.carregando_molhohot = False
 

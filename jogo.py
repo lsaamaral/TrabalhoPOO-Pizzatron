@@ -6,7 +6,7 @@ from Utils.database import BancoDeDados
 from Telas.login_tela import LoginTela
 from Telas.menu_tela import MenuTela
 from Telas.jogo_tela import JogoTela
-from Telas.ingredientes_manager import IngredientesManager
+from Entities.ingredientes import IngredientesManager
 from Interfaces.game_interface import InterfaceJogo
 
 class Game(InterfaceJogo):
@@ -27,10 +27,6 @@ class Game(InterfaceJogo):
         self.usuario = None
         self.menu_tela = None
         self.jogo_tela = None
-        self.ingredientes_manager = None  
-    
-        self.carregando_ingrediente = False
-        self.ingrediente_atual = None
 
     def run(self):
         while True:
@@ -62,21 +58,11 @@ class Game(InterfaceJogo):
                 if acao == "play":
                     self.tela_atual = "jogo"
                     self.jogo_tela = JogoTela(self.tela)
-                    self.ingredientes_manager = IngredientesManager(self.tela)
                 elif acao == "logout":
                     self.usuario = None
                     self.tela_atual = "login"
             elif self.tela_atual == "jogo" and self.jogo_tela:
                 self.jogo_tela.handle_input(evento)
-
-                if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
-                    self.ingrediente_atual = self.ingredientes_manager.get_ingrediente_em_clique(self.pos_mouse)
-                    if self.ingrediente_atual:
-                        self.carregando_ingrediente = True
-
-                if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
-                    self.carregando_ingrediente = False
-                    self.ingrediente_atual = None
 
                 if not self.jogo_tela.running:
                     self.tela_atual = "menu"
@@ -94,9 +80,3 @@ class Game(InterfaceJogo):
             self.menu_tela.draw()
         elif self.tela_atual == "jogo" and self.jogo_tela:
             self.jogo_tela.draw()
-            self.ingredientes_manager.draw()
-            
-            if self.carregando_ingrediente and self.ingrediente_atual:
-                img_width, img_height = self.ingrediente_atual.get_size()
-                x, y = self.pos_mouse[0] - img_width // 2, self.pos_mouse[1] - img_height // 2
-                self.tela.blit(self.ingrediente_atual, (x, y))

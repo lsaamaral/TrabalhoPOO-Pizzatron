@@ -4,7 +4,7 @@ from Entities.pizza import *
 class Nivel():
     def __init__(self, tela):
         self.tela = tela
-        self.velocidade = 5 
+        self.velocidade = 7 
         self.nivel = 1
 
         self.esteira = pygame.transform.scale(pygame.image.load("Assets/Sprites/Esteira.png"), (240, 230))

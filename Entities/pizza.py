@@ -132,7 +132,7 @@ class PizzaUsuario(Pizza):
         self.posicao[0] += self.velocidade
     
     def esta_fora_da_tela(self):
-        return self.posicao[0] > 1200
+        return self.posicao[0] > 1350
 
     def desenhar(self, tela):
         tela.blit(self.massa_sprite, self.posicao)
