@@ -49,7 +49,3 @@ class Molho():
                 self.current_frame = (self.current_frame + 1) % self.num_frames
                 self.frame_timer = 0
 
-
-
-        
-        

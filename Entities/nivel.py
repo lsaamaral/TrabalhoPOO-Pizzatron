@@ -4,11 +4,10 @@ from Entities.pizza import *
 class Nivel():
     def __init__(self, tela):
         self.tela = tela
-        self.velocidade = 10 
-        self.nivel = 5
+        self.velocidade = 5 
+        self.nivel = 1
 
-        self.esteira = pygame.image.load("Assets/Sprites/Esteira.png")
-        self.esteira = pygame.transform.scale(self.esteira, (240, 230))
+        self.esteira = pygame.transform.scale(pygame.image.load("Assets/Sprites/Esteira.png"), (240, 230))
 
         self.num_esteiras = (1200 // 240) + 2
         self.esteiras_posicoes = [(i*240, 523) for i in range (-1, self.num_esteiras)]
@@ -16,6 +15,7 @@ class Nivel():
         self.clock = pygame.time.Clock()
 
         self.criar_pizza_cardapio()
+        self.criar_pizza_usuario()
 
     def get_velocidade(self):
         return self.velocidade
@@ -24,10 +24,7 @@ class Nivel():
         return self.nivel
     
     def criar_pizza_usuario(self):
-        self.pizza_borda = pygame.image.load("Assets/Pizza/Borda.png")
-        self.pizza_borda = pygame.transform.scale(self.pizza_borda, (295, 192))
-        self.pizza_massa = pygame.image.load("Assets/Pizza/Massa.png")
-        self.pizza_massa = pygame.transform.scale(self.pizza_massa, (295, 192))
+        self.pizza_usuario = PizzaUsuario()
     
     def criar_pizza_cardapio(self):
         self.pizza_cardapio = PizzaCardapio()
@@ -54,3 +51,24 @@ class Nivel():
     def desenhar_esteira(self):
         for posicao in self.esteiras_posicoes:
             self.tela.blit(self.esteira, posicao)
+
+    def atualizar_pizza_usuario(self):
+        if self.pizza_usuario.esta_fora_da_tela():
+            self.criar_pizza_usuario()
+            
+        self.pizza_usuario.mover()
+
+    def desenhar_pizza_usuario(self):
+        self.pizza_usuario.desenhar(self.tela)
+
+    def executar(self, mouse_pos, mouse_held, ingrediente_atual):
+        self.atualizar_esteira()
+        self.atualizar_pizza_usuario(mouse_pos, mouse_held, ingrediente_atual)
+
+        self.desenhar_esteira()
+        self.desenhar_pizza_usuario()
+        self.pizza_cardapio.desenhar(self.tela)
+
+        pygame.display.flip()
+        self.clock.tick(60)
+

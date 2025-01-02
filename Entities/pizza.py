@@ -21,7 +21,7 @@ class PizzaCardapio(Pizza):
         Classe para a pizza do cardapio
         '''
         self.molho = random.choice(["tomate", "hot"])
-        self.ingredientes = {"queijo": False, "alga": 0, "camarao": 0, "lula": 0, "peixe": 0}
+        self.ingredientes = {"queijo": True, "alga": 0, "camarao": 0, "lula": 0, "peixe": 0}
         
         if self.molho == "tomate":
             self.sprite = pygame.image.load("Assets/Cardapio/Tomate.png")
@@ -120,5 +120,21 @@ class PizzaCardapio(Pizza):
 
 
 class PizzaUsuario(Pizza):
-    def __init__(self, molho):
-        super().__init__(molho)
+    def __init__(self):
+        self.borda_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Borda.png"), (295, 192))
+        self.massa_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Massa.png"), (295, 192))
+        self.ingredientes = {"molho": None, "queijo": False, "alga": [], "camarao": [], "lula": [], "peixe": []}
+        self.posicao = [-270, 540]
+        self.velocidade = 5
+        self.raio = 100
+    
+    def mover(self):
+        self.posicao[0] += self.velocidade
+    
+    def esta_fora_da_tela(self):
+        return self.posicao[0] > 1200
+
+    def desenhar(self, tela):
+        tela.blit(self.massa_sprite, self.posicao)
+        tela.blit(self.borda_sprite, self.posicao)
+

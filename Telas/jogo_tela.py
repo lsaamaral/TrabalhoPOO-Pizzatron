@@ -2,48 +2,35 @@ import pygame
 from Telas.tela import Tela
 from Entities.molho import Molho
 from Entities.nivel import Nivel
+from Entities.pizza import *
 
 class JogoTela(Tela):
     def __init__(self, tela):
         self.tela = tela
 
         # Imagens fixas do cenario
-        self.cozinha = pygame.image.load("Assets/Backgrounds/Cozinha.png")
-        self.cozinha = pygame.transform.scale(self.cozinha, (1300, 475))
+        self.cozinha = pygame.transform.scale(pygame.image.load("Assets/Backgrounds/Cozinha.png"), (1300, 475))
 
-        self.telao = pygame.image.load("Assets/Cardapio/Telao.png")
-        self.telao = pygame.transform.scale(self.telao, (500, 375))
+        self.telao = pygame.transform.scale(pygame.image.load("Assets/Cardapio/Telao.png"), (500, 375))
 
-        self.bancada = pygame.image.load("Assets/Sprites/Bancada.png")
-        self.bancada = pygame.transform.scale(self.bancada, (1300, 420))
+        self.bancada = pygame.transform.scale(pygame.image.load("Assets/Sprites/Bancada.png"), (1300, 420))
 
-        self.cubaqueijo = pygame.image.load("Assets/CubasIngredientes/Queijo.png")
-        self.cubaqueijo = pygame.transform.scale(self.cubaqueijo, (220, 160))
-        self.cubaalga = pygame.image.load("Assets/CubasIngredientes/Alga.png")
-        self.cubaalga = pygame.transform.scale(self.cubaalga, (230, 131))
-        self.cubacamarao = pygame.image.load("Assets/CubasIngredientes/Camarao.png")
-        self.cubacamarao = pygame.transform.scale(self.cubacamarao, (210, 138))
-        self.cubalula = pygame.image.load("Assets/CubasIngredientes/Lula.png")
-        self.cubalula = pygame.transform.scale(self.cubalula, (210, 143))
-        self.cubapeixe = pygame.image.load("Assets/CubasIngredientes/Peixe.png")
-        self.cubapeixe = pygame.transform.scale(self.cubapeixe, (198, 124))
+        self.cubaqueijo = pygame.transform.scale(pygame.image.load("Assets/CubasIngredientes/Queijo.png"), (220, 160))
+        self.cubaalga = pygame.transform.scale(pygame.image.load("Assets/CubasIngredientes/Alga.png"), (230, 131))
+        self.cubacamarao = pygame.transform.scale(pygame.image.load("Assets/CubasIngredientes/Camarao.png"), (210, 138))
+        self.cubalula = pygame.transform.scale(pygame.image.load("Assets/CubasIngredientes/Lula.png"), (210, 143))
+        self.cubapeixe = pygame.transform.scale(pygame.image.load("Assets/CubasIngredientes/Peixe.png"), (198, 124))
 
-        self.suportecaixa = pygame.image.load("Assets/SuporteMolhos/Caixa.png")
-        self.suportecaixa = pygame.transform.scale(self.suportecaixa, (330, 497))
-        self.suportetomate = pygame.image.load("Assets/SuporteMolhos/Tomate.png")
-        self.suportetomate = pygame.transform.scale(self.suportetomate, (120, 160))
-        self.suportehot = pygame.image.load("Assets/SuporteMolhos/Hot.png")
-        self.suportehot = pygame.transform.scale(self.suportehot, (37, 204))
+        self.suportecaixa = pygame.transform.scale(pygame.image.load("Assets/SuporteMolhos/Caixa.png"), (330, 497))
+        self.suportetomate = pygame.transform.scale(pygame.image.load("Assets/SuporteMolhos/Tomate.png"), (120, 160))
+        self.suportehot = pygame.transform.scale(pygame.image.load("Assets/SuporteMolhos/Hot.png"), (37, 204))
         self.molhotomate = Molho(tela, "Assets/Molhos/Tomate.png", (250, 320))
-        self.apertar_molhotomate = pygame.image.load("Assets/Molhos/Apertar_Tomate.png")
-        self.apertar_molhotomate = pygame.transform.scale(self.apertar_molhotomate, (250, 320))
+        self.apertar_molhotomate = pygame.transform.scale(pygame.image.load("Assets/Molhos/Apertar_Tomate.png"), (250, 320))
         self.molhohot = Molho(tela, "Assets/Molhos/Hot.png", (245, 310))
-        self.apertar_molhohot = pygame.image.load("Assets/Molhos/Apertar_Hot.png")
-        self.apertar_molhohot = pygame.transform.scale(self.apertar_molhohot, (245, 310))
-        self.suportetomatefrente = pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png")
-        self.suportetomatefrente = pygame.transform.scale(self.suportetomatefrente, (110, 130))
+        self.apertar_molhohot = pygame.transform.scale(pygame.image.load("Assets/Molhos/Apertar_Hot.png"), (245, 310))
+        self.suportetomatefrente = pygame.transform.scale(pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png"), (110, 130))
 
-        # Posições
+        # Posicoes
         self.cozinha_pos = (-10,-10)
         self.telao_pos = (610, 42)
         self.bancada_pos = (-10, 410)
@@ -59,12 +46,12 @@ class JogoTela(Tela):
         self.molhohot_pos = (60, 200)
         self.suportetomatefrente_pos = (15, 340)
 
-        # Posição dos molhos
+        # Posicao dos molhos
         self.rect_molhotomate = pygame.Rect(
-            self.molhotomate_pos[0] + 100,  # Ajuste para esquerda/direita
-            self.molhotomate_pos[1] + 100,  # Ajuste para cima/baixo
-            self.molhotomate.get_width() - 200,  # Reduz largura
-            self.molhotomate.get_height() - 155  # Reduz altura
+            self.molhotomate_pos[0] + 100,  # Esquerda/direita
+            self.molhotomate_pos[1] + 100,  # Cima/baixo
+            self.molhotomate.get_width() - 200,  # Largura
+            self.molhotomate.get_height() - 155  # Altura
         )
     
         self.rect_molhohot = pygame.Rect(
@@ -97,8 +84,11 @@ class JogoTela(Tela):
         self.tela.blit(self.suportetomate, self.suportetomate_pos)
         self.tela.blit(self.suportehot, self.suportehot_pos)
         
+        self.update()
         self.nivel.atualizar_esteira()
         self.nivel.desenhar_esteira()
+
+        self.nivel.pizza_usuario.desenhar(self.tela)
 
         if self.nivel.pizza_cardapio:
             self.nivel.pizza_cardapio.desenhar(self.tela)
@@ -131,6 +121,12 @@ class JogoTela(Tela):
         if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
             self.carregando_molhotomate = False
             self.carregando_molhohot = False
+
+    def update(self):
+        self.nivel.pizza_usuario.mover()
+
+        if self.nivel.pizza_usuario.esta_fora_da_tela():
+            self.pizza_usuario = self.nivel.criar_pizza_usuario()
 
 
         
