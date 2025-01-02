@@ -123,10 +123,16 @@ class PizzaUsuario(Pizza):
     def __init__(self):
         self.borda_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Borda.png"), (295, 192))
         self.massa_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Massa.png"), (295, 192))
-        self.ingredientes = {"molho": None, "queijo": False, "alga": [], "camarao": [], "lula": [], "peixe": []}
+        self.ingredientes = self.criar_lista_ingredientes()
         self.posicao = [-270, 540]
         self.velocidade = 5
         self.raio = 100
+
+        self.raio_x = (self.massa_sprite.get_width()) // 2
+        self.raio_y = (self.massa_sprite.get_height()) // 2
+    
+    def criar_lista_ingredientes(self):
+        return {"molho": None, "queijo": False, "alga": [], "camarao": [], "lula": [], "peixe": []}
     
     def mover(self):
         self.posicao[0] += self.velocidade
@@ -137,4 +143,14 @@ class PizzaUsuario(Pizza):
     def desenhar(self, tela):
         tela.blit(self.massa_sprite, self.posicao)
         tela.blit(self.borda_sprite, self.posicao)
+
+    def esta_sobre(self, pos_mouse):
+        dx = pos_mouse[0] - (self.posicao[0] + self.raio_x -40)
+        dy = pos_mouse[1] - (self.posicao[1] + self.raio_y -40)
+        
+        return (dx**2 / self.raio_x**2) + (dy**2 / self.raio_y**2) <= 1
+    
+    def resetar(self):
+        self.posicao = [-270, 540]
+        self.ingredientes = self.criar_lista_ingredientes()
 

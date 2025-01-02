@@ -107,15 +107,24 @@ class JogoTela(Tela):
             self.tela.blit(self.molhohot.get_molho(), self.molhohot_pos)
         else:
             self.molhohot.draw_animation(self.apertar_molhohot, pygame.mouse.get_pos(), 55, 65, self.molho_frames_hot)
-            
+
+        self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
+
+        for nome, posicoes in self.nivel.pizza_usuario.ingredientes.items():
+            if isinstance(posicoes, list):
+                for pos_relativa in posicoes:
+                    pos_absoluta = (
+                        self.nivel.pizza_usuario.posicao[0] + pos_relativa[0] - 55,
+                        self.nivel.pizza_usuario.posicao[1] + pos_relativa[1] - 55
+                    )
+                    self.tela.blit(self.ingredientes_manager.ingredientes_imgs[nome], pos_absoluta)            
+
         self.ingredientes_manager.draw()
         if self.carregando_ingrediente and self.ingrediente_atual:
                 pos_mouse = pygame.mouse.get_pos()
                 img_width, img_height = self.ingrediente_atual.get_size()
                 x, y = pos_mouse[0] - img_width // 2, pos_mouse[1] - img_height // 2
                 self.tela.blit(self.ingrediente_atual, (x, y))
-
-        self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
 
     def handle_input(self, evento):
         if evento.type == pygame.KEYDOWN:
@@ -135,8 +144,24 @@ class JogoTela(Tela):
                 self.carregando_molhohot = True
 
         if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
-            self.carregando_ingrediente = False
-            self.ingrediente_atual = None
+            pos_mouse = pygame.mouse.get_pos()
+
+            if self.carregando_ingrediente and self.ingrediente_atual:
+                if self.nivel.pizza_usuario.esta_sobre(pos_mouse):
+                    nome_ingrediente = next(
+                        (key for key, img in self.ingredientes_manager.ingredientes_imgs.items() if img == self.ingrediente_atual),
+                        None
+                    )
+                    if nome_ingrediente in self.nivel.pizza_usuario.ingredientes:
+                        if isinstance(self.nivel.pizza_usuario.ingredientes[nome_ingrediente], list):
+                            pos_relativa = (
+                                pos_mouse[0] - self.nivel.pizza_usuario.posicao[0],
+                                pos_mouse[1] - self.nivel.pizza_usuario.posicao[1]
+                            )
+                            self.nivel.pizza_usuario.ingredientes[nome_ingrediente].append(pos_relativa)
+                            print(self.nivel.pizza_usuario.ingredientes)
+                    self.carregando_ingrediente = False
+                    self.ingrediente_atual = None
 
             self.carregando_molhotomate = False
             self.carregando_molhohot = False
@@ -145,7 +170,7 @@ class JogoTela(Tela):
         self.nivel.pizza_usuario.mover()
 
         if self.nivel.pizza_usuario.esta_fora_da_tela():
-            self.pizza_usuario = self.nivel.criar_pizza_usuario()
+            self.nivel.pizza_usuario.resetar()
 
 
         
