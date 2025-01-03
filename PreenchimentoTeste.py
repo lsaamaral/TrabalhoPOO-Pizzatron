@@ -1,10 +1,10 @@
 import pygame
 import sys
+
 class Molho:
     """
     Classe responsável por gerenciar o molho na pizza.
     Inclui lógica de pintura, preenchimento e detecção de progresso.
-    Nao estou conseguindo dar commit meu deu
     """
     def __init__(self, escala=(200, 200), limite_preenchimento=0.7):
         """
@@ -20,7 +20,7 @@ class Molho:
         self.molho_mask = pygame.mask.from_surface(self.mask_surface)  # Máscara binária baseada na superfície
 
         self.molho_sprite = pygame.image.load("image.png")  # Sprite do molho para respingos
-        self.molho_sprite = pygame.transform.scale(self.molho_sprite, (5, 5))  # Ajustar escala do sprite
+        self.molho_sprite = pygame.transform.scale(self.molho_sprite, (15, 15))  # Aumentar escala do sprite
 
         self.pixels_totais = self.molho_mask.count()  # Quantidade total de pixels na área da máscara
         self.pixels_preenchidos = 0  # Quantidade de pixels preenchidos até agora
@@ -38,8 +38,8 @@ class Molho:
 
             # Verifica se a posição relativa está dentro da área da máscara
             if 0 <= rel_x < self.escala[0] and 0 <= rel_y < self.escala[1] and self.molho_mask.get_at((rel_x, rel_y)):
-                pygame.draw.circle(self.molho_surface, (255, 0, 0, 255), (rel_x, rel_y), 10)  # Pinta com um círculo
-                self.molho_surface.blit(self.molho_sprite, (rel_x - 10, rel_y - 10))  # Adiciona respingos
+                pygame.draw.circle(self.molho_surface, (255, 0, 0, 255), (rel_x, rel_y), 20)  # Aumentar o raio do círculo
+                self.molho_surface.blit(self.molho_sprite, (rel_x - 15, rel_y - 15))  # Ajustar respingos
 
                 # Calcula pixels preenchidos dentro da máscara
                 self.pixels_preenchidos = sum(
@@ -58,7 +58,7 @@ class Molho:
         Preenche automaticamente o molho se a porcentagem necessária for alcançada.
         """
         self.molho_surface.fill((0, 0, 0, 0))  # Limpa a superfície
-        pygame.draw.circle(self.molho_surface, (255, 0, 0, 255), (self.escala[0] // 2, self.escala[1] // 2), self.escala[0] // 2)
+        pygame.draw.circle(self.molho_surface, (200, 0, 0, 200), (self.escala[0] // 2, self.escala[1] // 2), self.escala[0] // 2)
 
     def desenhar(self, tela, pizza_pos):
         """
@@ -67,7 +67,6 @@ class Molho:
         :param pizza_pos: Posição da pizza na tela (x, y).
         """
         tela.blit(self.molho_surface, pizza_pos)
-
 
 def main():
     pygame.init()
@@ -86,7 +85,7 @@ def main():
 
     # Carregar imagens
     esteira_img = pygame.image.load("1.png")
-    pizza_img = pygame.image.load("2.png")
+    pizza_img = pygame.image.load("Massa.png")
     pizza_img = pygame.transform.scale(pizza_img, (200, 200))
 
     # Configurações iniciais
@@ -131,7 +130,6 @@ def main():
         # Atualizar display
         pygame.display.flip()
         clock.tick(FPS)
-
 
 if __name__ == "__main__":
     main()

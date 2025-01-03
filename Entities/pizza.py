@@ -13,6 +13,12 @@ class Pizza():
         '''
         if ingrediente in self.ingredientes and ingrediente != "queijo":
             self.ingredientes[ingrediente] += quantidade
+    
+    def verificar_molho_completo(self, molho):
+        """
+        Verifica se o molho está completamente aplicado.
+        """
+        return molho.molho_completo
 
 
 class PizzaCardapio(Pizza):
