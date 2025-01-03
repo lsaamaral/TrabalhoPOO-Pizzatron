@@ -31,12 +31,6 @@ class JogoTela(Tela):
         self.apertar_molhohot = pygame.transform.scale(pygame.image.load("Assets/Molhos/Apertar_Hot.png"), (245, 310))
         self.suportetomatefrente = pygame.transform.scale(pygame.image.load("Assets/SuporteMolhos/Tomate_Frente.png"), (110, 130))
 
-
-        self.molhotomate = Molho(tela, "Assets/Molhos/Tomate.png", (250, 320))
-        self.molhohot = Molho(tela, "Assets/Molhos/Hot.png", (245, 310))
-        self.nivel = Nivel(self.tela)
-
-
         # Posicoes
         self.cozinha_pos = (-10,-10)
         self.telao_pos = (610, 42)
@@ -83,7 +77,6 @@ class JogoTela(Tela):
         self.running = True
 
     def draw(self):
-        # Desenhar o cenário e elementos fixos
         self.tela.blit(self.cozinha, self.cozinha_pos)
         self.tela.blit(self.telao, self.telao_pos)
         self.tela.blit(self.bancada, self.bancada_pos)
@@ -96,33 +89,27 @@ class JogoTela(Tela):
         self.tela.blit(self.suportetomate, self.suportetomate_pos)
         self.tela.blit(self.suportehot, self.suportehot_pos)
         
-        # Atualiza a esteira e pizza
         self.update()
         self.nivel.atualizar_esteira()
         self.nivel.desenhar_esteira()
 
-        # Desenhar a pizza do usuário e do cardápio
         self.nivel.pizza_usuario.desenhar(self.tela)
+
         if self.nivel.pizza_cardapio:
             self.nivel.pizza_cardapio.desenhar(self.tela)
 
-        # Desenhar o molho se estiver carregando, caso contrário desenhar a imagem
         if not self.carregando_molhotomate:
             self.tela.blit(self.molhotomate.get_molho(), self.molhotomate_pos)
         else:
-            self.molhotomate.pintar(pygame.mouse.get_pos(), self.nivel.pizza_usuario.posicao)
             self.molhotomate.draw_animation(self.apertar_molhotomate, pygame.mouse.get_pos(), 38, 103, self.molho_frames_tomate)
 
         if not self.carregando_molhohot:
             self.tela.blit(self.molhohot.get_molho(), self.molhohot_pos)
         else:
-            self.molhohot.pintar(pygame.mouse.get_pos(), self.nivel.pizza_usuario.posicao)
             self.molhohot.draw_animation(self.apertar_molhohot, pygame.mouse.get_pos(), 55, 65, self.molho_frames_hot)
 
-        # Desenhar a frente do suporte do tomate
         self.tela.blit(self.suportetomatefrente, self.suportetomatefrente_pos)
 
-        # Desenhar ingredientes na pizza
         for nome, posicoes in self.nivel.pizza_usuario.ingredientes.items():
             if isinstance(posicoes, list):
                 for pos_relativa in posicoes:
@@ -132,17 +119,12 @@ class JogoTela(Tela):
                     )
                     self.tela.blit(self.ingredientes_manager.ingredientes_imgs[nome], pos_absoluta)            
 
-        # Desenhar os ingredientes carregados
         self.ingredientes_manager.draw()
         if self.carregando_ingrediente and self.ingrediente_atual:
-            pos_mouse = pygame.mouse.get_pos()
-            img_width, img_height = self.ingrediente_atual.get_size()
-            x, y = pos_mouse[0] - img_width // 2, pos_mouse[1] - img_height // 2
-            self.tela.blit(self.ingrediente_atual, (x, y))
-
-        # Atualizar a tela
-        pygame.display.update()
-
+                pos_mouse = pygame.mouse.get_pos()
+                img_width, img_height = self.ingrediente_atual.get_size()
+                x, y = pos_mouse[0] - img_width // 2, pos_mouse[1] - img_height // 2
+                self.tela.blit(self.ingrediente_atual, (x, y))
 
     def handle_input(self, evento):
         if evento.type == pygame.KEYDOWN:
@@ -158,10 +140,10 @@ class JogoTela(Tela):
             
             if self.rect_molhotomate.collidepoint(pos_mouse):
                 self.carregando_molhotomate = True
-                
-
             elif self.rect_molhohot.collidepoint(pos_mouse):
                 self.carregando_molhohot = True
+            
+
 
         if evento.type == pygame.MOUSEBUTTONUP and evento.button == 1:
             pos_mouse = pygame.mouse.get_pos()
@@ -196,5 +178,15 @@ class JogoTela(Tela):
     def update(self):
         self.nivel.pizza_usuario.mover()
 
+        if self.carregando_molhotomate:
+            pos_mouse = pygame.mouse.get_pos()
+            self.nivel.pizza_usuario.pintar(pos_mouse,"tomate")
+        if self.carregando_molhohot:
+            pos_mouse = pygame.mouse.get_pos()
+            self.nivel.pizza_usuario.pintar(pos_mouse,"Hot")
         if self.nivel.pizza_usuario.esta_fora_da_tela():
             self.nivel.pizza_usuario.resetar()
+
+
+
+        

@@ -13,12 +13,6 @@ class Pizza():
         '''
         if ingrediente in self.ingredientes and ingrediente != "queijo":
             self.ingredientes[ingrediente] += quantidade
-    
-    def verificar_molho_completo(self, molho):
-        """
-        Verifica se o molho está completamente aplicado.
-        """
-        return molho.molho_completo
 
 
 class PizzaCardapio(Pizza):
@@ -136,31 +130,93 @@ class PizzaUsuario(Pizza):
         self.raio = 100
 
         self.raio_x = (self.massa_sprite.get_width()) // 2
+        #print (f"{self.raio_x}")
         self.raio_y = (self.massa_sprite.get_height()) // 2
-    
+        #print (f"{self.raio_y}")
+
+        self.molho_surface = pygame.Surface((400, 400), pygame.SRCALPHA)
+        self.mask_surface = pygame.Surface((400, 400), pygame.SRCALPHA)
+        pygame.draw.ellipse(self.mask_surface, (255, 255, 255), (25, 15, 225, 145))
+        self.molho_mask = pygame.mask.from_surface(self.mask_surface)
+        self.pixels_totais = self.molho_mask.count()
+        self.pixels_preenchidos = 0
+        self.molho_completo = False
+
     def criar_lista_ingredientes(self):
         return {"molho": None, "queijo": False, "alga": [], "camarao": [], "lula": [], "peixe": []}
-    
+
     def mover(self):
         self.posicao[0] += self.velocidade
-    
+
     def esta_fora_da_tela(self):
         return self.posicao[0] > 1350
 
     def desenhar(self, tela):
         tela.blit(self.massa_sprite, self.posicao)
+        tela.blit(self.molho_surface, self.posicao)
         if self.queijo_sprite:
             tela.blit(self.queijo_sprite, self.posicao)
         tela.blit(self.borda_sprite, self.posicao)
+        
 
     def esta_sobre(self, pos_mouse):
         dx = pos_mouse[0] - (self.posicao[0] + self.raio_x -40)
         dy = pos_mouse[1] - (self.posicao[1] + self.raio_y -40)
         
         return (dx**2 / self.raio_x**2) + (dy**2 / self.raio_y**2) <= 1
-    
+
     def resetar(self):
         self.posicao = [-270, 540]
         self.ingredientes = self.criar_lista_ingredientes()
         self.queijo_sprite = None
+        self.molho_surface.fill((0, 0, 0, 0))
+        self.pixels_preenchidos = 0
+        self.molho_completo = False
 
+    def pintar(self, mouse_pos, molho_tipo):
+        self.molho_tipo = molho_tipo
+        print(f"Pintar chamado com posição do mouse: {mouse_pos}")
+        rel_x = mouse_pos[0] - self.posicao[0]
+        rel_y = mouse_pos[1] - self.posicao[1] + 150
+
+        # Verifica se o mouse está dentro dos limites da máscara
+        if 0 <= rel_x < self.molho_surface.get_width() and 0 <= rel_y < self.molho_surface.get_height():
+            if self.molho_mask.get_at((int(rel_x), int(rel_y))):
+                # Pinta apenas dentro da máscara
+                if self.molho_tipo == "tomate":
+                    pygame.draw.ellipse(
+                        self.molho_surface, 
+                        (255, 0, 0, 255), 
+                        (int(rel_x) - 30, int(rel_y) - 15, 80, 50)  # x, y, largura, altura
+                    )
+                elif self.molho_tipo == "Hot":
+                    pygame.draw.ellipse(
+                        self.molho_surface,
+                        (235, 0, 0, 255),
+                        (int(rel_x) - 30, int(rel_y) - 15, 80, 50)
+                    )
+
+                 # Atualiza o número de pixels preenchidos
+                self.pixels_preenchidos = sum(
+                    1 for y in range(self.molho_surface.get_height()) 
+                    for x in range(self.molho_surface.get_width())
+                    if self.molho_mask.get_at((x, y)) and self.molho_surface.get_at((x, y))[3] > 0
+                )
+
+                # Verifica se o molho está completo
+                if self.pixels_preenchidos / self.pixels_totais >= 0.9:
+                    self.molho_completo = True
+                    if self.molho_tipo == "tomate":
+                        self.preencher_completo(self.molho_tipo)
+                    elif self.molho_tipo == "Hot":
+                        self.preencher_completo(self.molho_tipo)
+
+
+    def preencher_completo(self,molho):
+        if molho == "tomate":
+            self.molho_surface.fill((0, 0, 0, 0))
+            pygame.draw.ellipse(self.molho_surface, (255, 0, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
+        elif molho == "Hot":
+            self.molho_surface.fill((0, 0, 0, 0))
+            pygame.draw.ellipse(self.molho_surface, (230, 0, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
+        self.ingredientes["molho"] = molho
