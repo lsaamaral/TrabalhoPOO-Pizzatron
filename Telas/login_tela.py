@@ -77,8 +77,3 @@ class LoginTela(Tela):
             else:
                 self.msg_erro = "Erro ao cadastrar ou autenticar usuario."
                 return None
-            if usuario.id:
-                return usuario
-            else:
-                self.msg_erro = "Erro ao cadastrar ou autenticar usuario."
-                return None
