@@ -184,7 +184,7 @@ class PizzaUsuario(Pizza):
         if 0 <= rel_x < self.molho_surface.get_width() and 0 <= rel_y < self.molho_surface.get_height():
             if self.molho_mask.get_at((int(rel_x), int(rel_y))):
                 # Define a cor do molho
-                cor_molho = (255, 0, 0, 255) if self.molho_tipo == "tomate" else (235, 0, 0, 255)
+                cor_molho = (255, 77, 0, 255) if self.molho_tipo == "tomate" else (235, 0, 0, 255)
                 
                 # Pinta na superfície
                 pygame.draw.ellipse(
@@ -220,7 +220,7 @@ class PizzaUsuario(Pizza):
     def preencher_completo(self,molho):
         if molho == "tomate":
             self.molho_surface.fill((0, 0, 0, 0))
-            pygame.draw.ellipse(self.molho_surface, (255, 0, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
+            pygame.draw.ellipse(self.molho_surface, (255, 77, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
         elif molho == "Hot":
             self.molho_surface.fill((0, 0, 0, 0))
             pygame.draw.ellipse(self.molho_surface, (230, 0, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
