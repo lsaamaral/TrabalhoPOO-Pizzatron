@@ -40,12 +40,12 @@ class LoginTela(Tela):
             if self.input_ativo["login"]:
                 if evento.key == pygame.K_BACKSPACE:
                     self.inputs["login"] = self.inputs["login"][:-1]
-                else:
+                elif evento.unicode.isalnum() or evento.unicode in "@._":
                     self.inputs["login"] += evento.unicode
             elif self.input_ativo["senha"]:
                 if evento.key == pygame.K_BACKSPACE:
                     self.inputs["senha"] = self.inputs["senha"][:-1]
-                else:
+                elif evento.unicode.isalnum() or evento.unicode in "@._":
                     self.inputs["senha"] += evento.unicode
 
     def authenticate(self):
