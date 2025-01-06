@@ -130,9 +130,7 @@ class PizzaUsuario(Pizza):
         self.raio = 100
 
         self.raio_x = (self.massa_sprite.get_width()) // 2
-        #print (f"{self.raio_x}")
         self.raio_y = (self.massa_sprite.get_height()) // 2
-        #print (f"{self.raio_y}")
 
         self.molho_surface = pygame.Surface((400, 400), pygame.SRCALPHA)
         self.mask_surface = pygame.Surface((400, 400), pygame.SRCALPHA)
@@ -172,7 +170,7 @@ class PizzaUsuario(Pizza):
         self.queijo_sprite = None
         self.molho_surface.fill((0, 0, 0, 0))
         self.pixels_preenchidos = 0
-        self.pixels_pintados_mask.clear()  # Reinicia a máscara de pixels pintados
+        self.pixels_pintados_mask.clear()
         self.molho_completo = False
 
     def pintar(self, mouse_pos, molho_tipo):
@@ -180,37 +178,30 @@ class PizzaUsuario(Pizza):
         rel_x = mouse_pos[0] - self.posicao[0]
         rel_y = mouse_pos[1] - self.posicao[1] + 150
 
-        # Verifica se o mouse está dentro dos limites da máscara
         if 0 <= rel_x < self.molho_surface.get_width() and 0 <= rel_y < self.molho_surface.get_height():
             if self.molho_mask.get_at((int(rel_x), int(rel_y))):
-                # Define a cor do molho
                 cor_molho = (255, 77, 0, 255) if self.molho_tipo == "tomate" else (235, 0, 0, 255)
                 
-                # Pinta na superfície
                 pygame.draw.ellipse(
                     self.molho_surface,
                     cor_molho,
                     (int(rel_x) - 30, int(rel_y) - 15, 80, 50)
                 )
 
-                # Cria uma máscara temporária para a área recém-pintada
                 temp_surface = pygame.Surface((400, 400), pygame.SRCALPHA)
                 pygame.draw.ellipse(
                     temp_surface,
-                    (255, 255, 255, 255),  # Cor de preenchimento branco para a máscara
+                    (255, 255, 255, 255),
                     (int(rel_x) - 30, int(rel_y) - 15, 80, 50)
                 )
                 temp_mask = pygame.mask.from_surface(temp_surface)
 
-                # Calcula os novos pixels pintados
                 novos_pixels_mask = self.pixels_pintados_mask.overlap_mask(temp_mask, (0, 0))
                 novos_pixels = temp_mask.count() - novos_pixels_mask.count()
 
-                # Atualiza a máscara de pixels pintados e o contador
                 self.pixels_pintados_mask.draw(temp_mask, (0, 0))
                 self.pixels_preenchidos += novos_pixels
 
-                # Verifica se o molho está completo
                 if self.pixels_preenchidos / self.pixels_totais >= 1.4:
                     self.molho_completo = True
                     self.preencher_completo(self.molho_tipo)
@@ -220,8 +211,8 @@ class PizzaUsuario(Pizza):
     def preencher_completo(self,molho):
         if molho == "tomate":
             self.molho_surface.fill((0, 0, 0, 0))
-            pygame.draw.ellipse(self.molho_surface, (255, 77, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
+            pygame.draw.ellipse(self.molho_surface, (255, 77, 0, 255), (21, 12, 270, 165))
         elif molho == "Hot":
             self.molho_surface.fill((0, 0, 0, 0))
-            pygame.draw.ellipse(self.molho_surface, (230, 0, 0, 255), (21, 12, 270, 165))  # x, y, largura, altura
+            pygame.draw.ellipse(self.molho_surface, (230, 0, 0, 255), (21, 12, 270, 165))
         self.ingredientes["molho"] = molho

@@ -6,7 +6,7 @@ from Utils.database import BancoDeDados
 from Telas.login_tela import LoginTela
 from Telas.menu_tela import MenuTela
 from Telas.jogo_tela import JogoTela
-from Entities.ingredientes import IngredientesManager
+from Telas.final_tela import FinalTela
 from Interfaces.game_interface import InterfaceJogo
 
 class Game(InterfaceJogo):
@@ -27,6 +27,7 @@ class Game(InterfaceJogo):
         self.usuario = None
         self.menu_tela = None
         self.jogo_tela = None
+        self.final_tela = None
 
     def run(self):
         while True:
@@ -65,7 +66,14 @@ class Game(InterfaceJogo):
                 self.jogo_tela.handle_input(evento)
 
                 if not self.jogo_tela.running:
+                    self.tela_atual = "final"
+                    self.final_tela = FinalTela(self.tela, self.jogo_tela.nivel.resultado)
+            elif self.tela_atual == "final" and self.final_tela:
+                acao = self.final_tela.handle_input(evento)
+                if acao == "menu":
                     self.tela_atual = "menu"
+                if acao == "sair":
+                    self.quit()
 
 
     def update(self):
