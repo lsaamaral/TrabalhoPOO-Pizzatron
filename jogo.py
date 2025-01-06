@@ -18,7 +18,7 @@ class Game(InterfaceJogo):
         self.clock = pygame.time.Clock()
         
         # Carregar as músicas de cada tela
-        self.musica_login = "Assets/Sounds/Pizza_Parlor.mp3"
+        self.musica_login = "Assets/Sounds/GEGAGEDIGEDAGEDAG.mp3"
         self.musica_jogo = "Assets/Sounds/Sounds_Music.mp3"
 
         self.tocar_musica(self.musica_login)
