@@ -15,8 +15,9 @@ class Pizza():
             self.ingredientes[ingrediente] += quantidade
 
 
+
 class PizzaCardapio(Pizza):
-    def __init__(self):
+    def __init__(self, progresso):
         '''
         Classe para a pizza do cardapio
         '''
@@ -29,17 +30,17 @@ class PizzaCardapio(Pizza):
             self.sprite = pygame.image.load("Assets/Cardapio/Hot.png")
         self.sprite = pygame.transform.scale(self.sprite, (150, 98))
         self.nome = self.gerar_nome()
-        self.pizzas_feitas = 0
-        self.pizzas_restantes = 40
-        self.erros = 0
-        self.moedas = 0
+        self.pizzas_feitas = progresso["pizzas_feitas"]
+        self.pizzas_restantes = progresso["pizzas_restantes"] - self.pizzas_feitas
+        self.erros = progresso["erros"]
+        self.moedas = progresso["moedas"]
 
     def gerar_pizza(self, nivel):
         if nivel <= 4:
             return
 
         ingredientes_possiveis = ["alga", "camarao", "lula", "peixe"]
-        ingredientes_diferentes = random.randint(1, 3)
+        ingredientes_diferentes = random.randint(1, 2)
         ingredientes_escolhidos = random.sample(ingredientes_possiveis, ingredientes_diferentes)
 
         for ingrediente in ingredientes_escolhidos:
@@ -92,7 +93,7 @@ class PizzaCardapio(Pizza):
                 tela.blit(texto_ingrediente, (850, y_offset))
                 y_offset += 20
 
-        x_offset = 610
+        x_offset = 620
         for ingrediente, quantidade in self.ingredientes.items():
             if ingrediente != "queijo" and quantidade > 0:
                 if ingrediente == "alga":
@@ -128,6 +129,7 @@ class PizzaUsuario(Pizza):
         self.posicao = [-270, 540]
         self.velocidade = 5
         self.raio = 100
+        self.modificado = False
 
         self.raio_x = (self.massa_sprite.get_width()) // 2
         self.raio_y = (self.massa_sprite.get_height()) // 2
@@ -141,6 +143,14 @@ class PizzaUsuario(Pizza):
         self.molho_completo = False
         self.pixels_pintados_mask = pygame.mask.Mask((400, 400))
 
+    def adicionar_ingrediente(self, ingrediente, quantidade):
+        '''
+        Adiciona quantidade de ingrediente na pizza
+        '''
+        if ingrediente in self.ingredientes and ingrediente != "queijo":
+            self.ingredientes[ingrediente] += quantidade
+            self.modificado = True
+
     def criar_lista_ingredientes(self):
         return {"molho": None, "queijo": False, "alga": [], "camarao": [], "lula": [], "peixe": []}
 
@@ -148,7 +158,7 @@ class PizzaUsuario(Pizza):
         self.posicao[0] += self.velocidade
 
     def esta_fora_da_tela(self):
-        return self.posicao[0] > 1350
+        return self.posicao[0] > 1200
 
     def desenhar(self, tela):
         tela.blit(self.massa_sprite, self.posicao)
@@ -202,17 +212,15 @@ class PizzaUsuario(Pizza):
                 self.pixels_pintados_mask.draw(temp_mask, (0, 0))
                 self.pixels_preenchidos += novos_pixels
 
-                if self.pixels_preenchidos / self.pixels_totais >= 1.4:
+                if self.pixels_preenchidos / self.pixels_totais >= 1.2:
                     self.molho_completo = True
                     self.preencher_completo(self.molho_tipo)
-
-
 
     def preencher_completo(self,molho):
         if molho == "tomate":
             self.molho_surface.fill((0, 0, 0, 0))
             pygame.draw.ellipse(self.molho_surface, (255, 77, 0, 255), (21, 12, 270, 165))
-        elif molho == "Hot":
+        elif molho == "hot":
             self.molho_surface.fill((0, 0, 0, 0))
             pygame.draw.ellipse(self.molho_surface, (230, 0, 0, 255), (21, 12, 270, 165))
         self.ingredientes["molho"] = molho

@@ -161,6 +161,7 @@ class JogoTela(Tela):
                                 pygame.image.load("Assets/Pizza/Queijo.png"),
                                 (295, 192)
                             )
+                            self.nivel.pizza_usuario.modificado = True
                     elif nome_ingrediente in self.nivel.pizza_usuario.ingredientes:
                         if isinstance(self.nivel.pizza_usuario.ingredientes[nome_ingrediente], list):
                             pos_relativa = (
@@ -168,7 +169,8 @@ class JogoTela(Tela):
                                 pos_mouse[1] - self.nivel.pizza_usuario.posicao[1]
                             )
                             self.nivel.pizza_usuario.ingredientes[nome_ingrediente].append(pos_relativa)
-                            print(self.nivel.pizza_usuario.ingredientes)
+                            self.nivel.pizza_usuario.modificado = True
+                            
                     self.carregando_ingrediente = False
                     self.ingrediente_atual = None
 
@@ -177,16 +179,17 @@ class JogoTela(Tela):
 
     def update(self):
         self.nivel.pizza_usuario.mover()
-
         if self.carregando_molhotomate:
             pos_mouse = pygame.mouse.get_pos()
             self.nivel.pizza_usuario.pintar(pos_mouse,"tomate")
         if self.carregando_molhohot:
             pos_mouse = pygame.mouse.get_pos()
-            self.nivel.pizza_usuario.pintar(pos_mouse,"Hot")
+            self.nivel.pizza_usuario.pintar(pos_mouse,"hot")
+        if self.nivel.pizza_usuario.modificado:
+            self.nivel.comparar_pizzas()
+            self.nivel.pizza_usuario.modificado = False
         if self.nivel.pizza_usuario.esta_fora_da_tela():
+            self.nivel.comparar_pizzas_final()
+            self.nivel.pizza_usuario.velocidade = self.nivel.velocidade_original
+            self.nivel.velocidade = self.nivel.velocidade_original
             self.nivel.pizza_usuario.resetar()
-
-
-
-        

@@ -35,7 +35,7 @@ class Game(InterfaceJogo):
             self.update()
             self.draw()
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(30)
 
     def quit(self):
         pygame.quit()
