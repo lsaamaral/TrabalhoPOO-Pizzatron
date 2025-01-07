@@ -17,9 +17,6 @@ class FinalTela:
         self.botao = pygame.transform.scale(pygame.image.load("Assets/Botoes/End.png"), (300, 70))
         self.botao_hover = pygame.transform.scale(pygame.image.load("Assets/Botoes/End_Hover.png"), (300, 70))
 
-        self.botao_jogar_rect = self.botao.get_rect(center=(self.tela.get_width() // 2, self.tela.get_height() - 150))
-        self.botao_sair_rect = self.botao.get_rect(center=(self.tela.get_width() // 2, self.tela.get_height() - 80))
-
     def handle_input(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             pos_mouse = pygame.mouse.get_pos()
@@ -33,7 +30,7 @@ class FinalTela:
         caminho_fonte = "Assets/BurbankSmallBold.ttf"
         font_score = pygame.font.Font(caminho_fonte, 30)  # Fonte menor para o placar
         font_titulo = pygame.font.Font(caminho_fonte, 40)  # Fonte para "SCORE"
-        font_botao = pygame.font.Font(caminho_fonte, 25)
+        font_botao = pygame.font.Font(caminho_fonte, 22)
         
         fundo = self.fundos.get(self.resultado, self.fundos["derrota"])
         self.tela.blit(fundo, (0, 0))
@@ -54,31 +51,34 @@ class FinalTela:
             self.tela.blit(texto_render, (20, 80 + i * 40))  # Espaçamento ajustado
 
         pos_mouse = pygame.mouse.get_pos()
-        botao_espacamento = 20  # Espaçamento vertical entre os botões
-        base_x, base_y = 20, self.tela.get_height() - 150  # Posição base no canto inferior esquerdo
+        botao_espacamento = 30  # Espaçamento vertical entre os botões
+        base_x, base_y = 20, self.tela.get_height() - 180  # Posição base no canto inferior esquerdo
+
+        self.botao_jogar_rect = self.botao.get_rect(topleft=(base_x, base_y))
+        self.botao_sair_rect = self.botao.get_rect(topleft=(base_x, base_y + 70 + botao_espacamento))
 
         # Botão "Jogar Novamente"
         if self.botao_jogar_rect.collidepoint(pos_mouse):
-            self.tela.blit(self.botao_hover, (base_x, base_y))
+            self.tela.blit(self.botao_hover, self.botao_jogar_rect.topleft)
         else:
-            self.tela.blit(self.botao, (base_x, base_y))
+            self.tela.blit(self.botao, self.botao_jogar_rect.topleft)
 
         jogar_texto = "JOGAR NOVAMENTE"
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             jogar_sombreado = font_botao.render(jogar_texto, True, (139, 0, 0))  # Vermelho escuro
-            self.tela.blit(jogar_sombreado, (base_x + 100 + dx, base_y + 20 + dy))
+            self.tela.blit(jogar_sombreado, (base_x + 55 + dx, base_y + 20 + dy))
         jogar_texto_render = font_botao.render(jogar_texto, True, (255, 255, 255))
-        self.tela.blit(jogar_texto_render, (base_x + 100, base_y + 20))
+        self.tela.blit(jogar_texto_render, (base_x + 55, base_y + 20))
 
         # Botão "Sair"
         if self.botao_sair_rect.collidepoint(pos_mouse):
-            self.tela.blit(self.botao_hover, (base_x, base_y + 70 + botao_espacamento))
+            self.tela.blit(self.botao_hover, self.botao_sair_rect.topleft)
         else:
-            self.tela.blit(self.botao, (base_x, base_y + 70 + botao_espacamento))
+            self.tela.blit(self.botao, self.botao_sair_rect.topleft)
         # Texto com borda vermelha
         sair_texto = "SAIR"
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             sair_sombreado = font_botao.render(sair_texto, True, (139, 0, 0))  # Vermelho escuro
-            self.tela.blit(sair_sombreado, (base_x + 100 + dx, base_y + 90 + botao_espacamento + dy))
+            self.tela.blit(sair_sombreado, (base_x + 125 + dx, base_y + 90 + botao_espacamento + dy))
         sair_texto_render = font_botao.render(sair_texto, True, (255, 255, 255))
-        self.tela.blit(sair_texto_render, (base_x + 100, base_y + 90 + botao_espacamento))
+        self.tela.blit(sair_texto_render, (base_x + 125, base_y + 90 + botao_espacamento))

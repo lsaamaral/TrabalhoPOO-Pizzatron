@@ -27,7 +27,7 @@ class MenuTela(Tela):
             texto = self.fonte.render("Nenhuma pontuacao registrada", True, (0, 0, 0))
             self.tela.blit(texto, (20, 20))
         else:
-            y = 200
+            y = 50
             for coins, data in self.melhores_coins:
                 texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (0, 0, 0))
                 self.tela.blit(texto, (20, y))

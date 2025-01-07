@@ -71,8 +71,12 @@ class Game(InterfaceJogo):
             elif self.tela_atual == "final" and self.final_tela:
                 acao = self.final_tela.handle_input(evento)
                 if acao == "menu":
+                    if self.usuario:
+                        self.usuario.registrar_coins(self.final_tela.moedas_totais)
                     self.tela_atual = "menu"
                 if acao == "sair":
+                    if self.usuario:
+                        self.usuario.registrar_coins(self.final_tela.moedas_totais)
                     self.quit()
 
 
