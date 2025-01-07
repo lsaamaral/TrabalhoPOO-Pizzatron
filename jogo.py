@@ -67,12 +67,16 @@ class Game(InterfaceJogo):
 
                 if not self.jogo_tela.running:
                     self.tela_atual = "final"
-                    self.final_tela = FinalTela(self.tela, self.jogo_tela.nivel.resultado)
+                    self.final_tela = FinalTela(self.tela, self.jogo_tela.nivel.resultado(), self.jogo_tela.nivel.pizza_cardapio.pizzas_feitas, self.jogo_tela.nivel.pizza_cardapio.moedas)
             elif self.tela_atual == "final" and self.final_tela:
                 acao = self.final_tela.handle_input(evento)
                 if acao == "menu":
+                    if self.usuario:
+                        self.usuario.registrar_coins(self.final_tela.moedas_totais)
                     self.tela_atual = "menu"
                 if acao == "sair":
+                    if self.usuario:
+                        self.usuario.registrar_coins(self.final_tela.moedas_totais)
                     self.quit()
 
 
@@ -80,11 +84,14 @@ class Game(InterfaceJogo):
         pass  # A atualização esta sendo feita no handle input
 
     def draw(self):
-        self.tela.fill((255, 255, 255))
-
         if self.tela_atual == "login":
+            self.tela.fill((255, 255, 255))
             self.login_tela.draw()
         elif self.tela_atual == "menu" and self.menu_tela:
+            self.tela.fill((255, 255, 255))
             self.menu_tela.draw()
         elif self.tela_atual == "jogo" and self.jogo_tela:
+            self.tela.fill((255, 255, 255))
             self.jogo_tela.draw()
+        elif self.tela_atual == "final" and self.final_tela:
+            self.final_tela.draw()

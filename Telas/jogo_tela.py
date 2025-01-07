@@ -169,10 +169,9 @@ class JogoTela(Tela):
                                 pos_mouse[1] - self.nivel.pizza_usuario.posicao[1]
                             )
                             self.nivel.pizza_usuario.ingredientes[nome_ingrediente].append(pos_relativa)
-                            self.nivel.pizza_usuario.modificado = True
-                            
-                    self.carregando_ingrediente = False
-                    self.ingrediente_atual = None
+                            self.nivel.pizza_usuario.modificado = True       
+                self.carregando_ingrediente = False
+                self.ingrediente_atual = None
 
             self.carregando_molhotomate = False
             self.carregando_molhohot = False
@@ -192,4 +191,6 @@ class JogoTela(Tela):
             self.nivel.comparar_pizzas_final()
             self.nivel.pizza_usuario.velocidade = self.nivel.velocidade_original
             self.nivel.velocidade = self.nivel.velocidade_original
+            if self.nivel.pizza_cardapio.erros == 5 or self.nivel.pizza_cardapio.pizzas_feitas == 40:
+                self.running = False
             self.nivel.pizza_usuario.resetar()

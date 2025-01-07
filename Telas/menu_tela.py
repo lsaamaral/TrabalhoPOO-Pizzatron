@@ -5,31 +5,46 @@ class MenuTela(Tela):
     def __init__(self, tela, usuario):
         self.tela = tela
         self.usuario = usuario
-        self.fonte = pygame.font.Font("Assets/BurbankSmallBold.ttf", 32)
+        self.fonte = pygame.font.Font("Assets/BurbankSmallBold.ttf", 30)
         self.background = pygame.image.load("Assets/Backgrounds/MenuJogo.png")
         self.background = pygame.transform.scale(self.background, (1200, 750))
-        self.botao_play = pygame.Rect(300, 400, 200, 50)
-        self.botao_sair = pygame.Rect(300, 500, 200, 50)
         self.melhores_coins = self.usuario.banco.melhores_coins(self.usuario.id)
+
+        self.botao_sprite = pygame.transform.scale(pygame.image.load("Assets/Botoes/Start.png"), (200, 50))
+
+        self.botao_play = pygame.Rect(50, 550, 200, 50)
+        self.botao_sair = pygame.Rect(50, 650, 200, 50)
 
     def draw(self):
         self.tela.blit(self.background, (0, 0))
 
-        pygame.draw.rect(self.tela, (0, 255, 0), self.botao_play)
-        play_texto = self.fonte.render("Play", True, (0, 0, 0))
+        mouse_pos = pygame.mouse.get_pos()
+        hover_play = self.botao_play.collidepoint(mouse_pos)
+        hover_sair = self.botao_sair.collidepoint(mouse_pos)
+
+        self.tela.blit(self.botao_sprite, (self.botao_play.x, self.botao_play.y))
+        self.tela.blit(self.botao_sprite, (self.botao_sair.x, self.botao_sair.y))
+
+        play_texto = self.fonte.render("Play", True, (105, 0, 0))
+        sair_texto = self.fonte.render("Quit", True, (105, 0, 0))
+
+        if hover_play:
+            borda_play = self.fonte.render("Play", True, (255, 255, 255))
+            self.tela.blit(borda_play, (self.botao_play.x + 73, self.botao_play.y + 8))
+        if hover_sair:
+            borda_sair = self.fonte.render("Quit", True, (255, 255, 255))
+            self.tela.blit(borda_sair, (self.botao_sair.x + 73, self.botao_sair.y + 8))
+
         self.tela.blit(play_texto, (self.botao_play.x + 70, self.botao_play.y + 5))
-        
-        pygame.draw.rect(self.tela, (255, 0, 0), self.botao_sair)
-        sair_texto = self.fonte.render("Quit", True, (0, 0, 0))
         self.tela.blit(sair_texto, (self.botao_sair.x + 70, self.botao_sair.y + 5))
 
         if not self.melhores_coins:
             texto = self.fonte.render("Nenhuma pontuacao registrada", True, (0, 0, 0))
             self.tela.blit(texto, (20, 20))
         else:
-            y = 200
+            y = 50
             for coins, data in self.melhores_coins:
-                texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (0, 0, 0))
+                texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (105, 0, 0))
                 self.tela.blit(texto, (20, y))
                 y += 40
 
