@@ -126,3 +126,13 @@ class Nivel():
             self.mudar_nivel()
         else:
             self.pizza_cardapio.erros += 1
+
+    def resultado(self):
+        if self.pizza_cardapio.erros == 5 and self.pizza_cardapio.pizzas_feitas == 25:
+            return "meia_derrota"
+        if self.pizza_cardapio.erros == 5 and self.pizza_cardapio.pizzas_feitas == 35:
+            return "meia_vitoria"
+        if self.pizza_cardapio.erros == 5:
+            return "derrota"
+        elif self.pizza_cardapio.pizzas_feitas == 40:
+            return "vitoria"
