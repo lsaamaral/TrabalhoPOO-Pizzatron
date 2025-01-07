@@ -25,8 +25,8 @@ class MenuTela(Tela):
         self.tela.blit(self.botao_sprite, (self.botao_play.x, self.botao_play.y))
         self.tela.blit(self.botao_sprite, (self.botao_sair.x, self.botao_sair.y))
 
-        play_texto = self.fonte.render("Play", True, (90, 0, 0))
-        sair_texto = self.fonte.render("Quit", True, (90, 0, 0))
+        play_texto = self.fonte.render("Play", True, (105, 0, 0))
+        sair_texto = self.fonte.render("Quit", True, (105, 0, 0))
 
         if hover_play:
             borda_play = self.fonte.render("Play", True, (255, 255, 255))
@@ -44,7 +44,7 @@ class MenuTela(Tela):
         else:
             y = 50
             for coins, data in self.melhores_coins:
-                texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (50, 0, 0))
+                texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (105, 0, 0))
                 self.tela.blit(texto, (20, y))
                 y += 40
 
