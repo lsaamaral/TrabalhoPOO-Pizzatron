@@ -2,15 +2,17 @@ class Usuario():
     def __init__(self, banco, login, senha):
         self.banco = banco
         self.login = login
-        self.senha = senha
+        self.__senha = senha
         self.id = None
     
+    def get_senha(self):
+        return self.__senha
     def cadastrar(self):
-        if not self.banco.cadastrar_usuario(self.login, self.senha):
+        if not self.banco.cadastrar_usuario(self.login, self.get_senha()):
             print("Nao foi possivel cadastrar o usuario")
 
     def fazer_login(self):
-        self.id = self.banco.verificar_login(self.login, self.senha)
+        self.id = self.banco.verificar_login(self.login, self.get_senha())
         if self.id:
             print(f"Ola {self.login}!")
         else:
