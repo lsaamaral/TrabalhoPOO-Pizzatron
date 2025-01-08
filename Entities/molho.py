@@ -1,9 +1,7 @@
 import pygame
 
-import pygame
-
 class Molho():
-    def __init__(self, tela, endereco_img, escala):
+    def __init__(self, tela, endereco_img: str, escala: list):
         self.tela = tela
         try:
             self.carregar_img = pygame.image.load(endereco_img)
@@ -16,19 +14,6 @@ class Molho():
         self.frame_timer = 0
         self.frame_interval = 100  # Intervalo em milissegundos entre frames
         self.num_frames = 0
-
-        # Adições para pintura e preenchimento
-        self.escala = escala
-        self.molho_surface = pygame.Surface(escala, pygame.SRCALPHA)  # Superfície para pintura
-        self.mask_surface = pygame.Surface(escala, pygame.SRCALPHA)  # Máscara circular
-        pygame.draw.circle(self.mask_surface, (255, 255, 255), (escala[0] // 2, escala[1] // 2), escala[0] // 2)
-        self.molho_mask = pygame.mask.from_surface(self.mask_surface)  # Máscara binária
-        self.pixels_totais = self.molho_mask.count()  # Pixels totais da máscara
-        self.pixels_preenchidos = 0
-        self.molho_completo = False
-        self.molho_sprite = pygame.image.load("Assets/Pizza/Tomate_Pingando.png")
-        self.molho_sprite = pygame.transform.scale(self.molho_sprite, (15, 15))
-        self.limite_preenchimento = 0.7  # 70% para completar
 
     def get_molho(self):
         return self.molho
@@ -69,45 +54,3 @@ class Molho():
                 self.current_frame = (self.current_frame + 1) % self.num_frames
                 self.frame_timer = 0
 
-    def pintar(self, pos_mouse, pizza_pos):
-        """
-        Aplica molho na posição indicada pelo mouse.
-        """
-        if not self.molho_completo:
-            rel_x = pos_mouse[0] - pizza_pos[0]
-            rel_y = pos_mouse[1] - pizza_pos[1]
-
-            # Verifica se está dentro da máscara
-            if 0 <= rel_x < self.escala[0] and 0 <= rel_y < self.escala[1] and self.molho_mask.get_at((rel_x, rel_y)):
-                pygame.draw.circle(self.molho_surface, (255, 0, 0, 255), (rel_x, rel_y), 10)
-                self.molho_surface.blit(self.molho_sprite, (rel_x - 15, rel_y - 15))
-                
-                # Calcula pixels preenchidos
-                self.pixels_preenchidos = sum(
-                    1 for y in range(self.escala[1])
-                    for x in range(self.escala[0])
-                    if self.molho_mask.get_at((x, y)) and self.molho_surface.get_at((x, y))[3] > 0
-                )
-
-                if self.pixels_preenchidos / self.pixels_totais >= self.limite_preenchimento:
-                    self.molho_completo = True
-                    self.preencher_completo()
-
-    def desenhar(self, tela, pizza_pos):
-        """
-        Desenha o molho na tela, na posição da pizza.
-        """
-        tela.blit(self.molho_surface, pizza_pos)
-
-        def preencher_completo(self):
-            """
-            Preenche automaticamente a área restante com molho.
-            """
-            self.molho_surface.fill((0, 0, 0, 0))  # Limpa
-            pygame.draw.circle(self.molho_surface, (200, 0, 0, 200), (self.escala[0] // 2, self.escala[1] // 2), self.escala[0] // 2)
-
-    def desenhar(self, tela, pizza_pos):
-        """
-        Desenha o molho na tela, na posição da pizza.
-        """
-        tela.blit(self.molho_surface, pizza_pos)
