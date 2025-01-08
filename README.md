@@ -12,7 +12,7 @@ Participantes: Bruno Amaral, Guilherme Paredes, Isabella Amaral e Julia Camelo
 # Requisitos
 Para a base de dados funcionar, é necessário que a máquina esteja conectada à internet.
 
-Bibliotecas necessárias:
+Bibliotecas necessárias:  
 pip install pymongo  
 pip install datetime  
 pip install bcrypt  
