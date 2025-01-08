@@ -13,7 +13,7 @@ Participantes: Bruno Amaral, Guilherme Paredes, Isabella Amaral e Julia Camelo
 Para a base de dados funcionar, é necessário que a máquina esteja conectada à internet.
 
 Bibliotecas necessárias:
-pip install pymongo 
-pip install datetime
-pip install bcrypt
-pip install pygame
+pip install pymongo  
+pip install datetime  
+pip install bcrypt  
+pip install pygame  
