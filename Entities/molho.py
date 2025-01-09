@@ -1,6 +1,7 @@
 import pygame
+from Interfaces.molho_interface import InterfaceMolho
 
-class Molho():
+class Molho(InterfaceMolho):
     def __init__(self, tela, endereco_img: str, escala: list):
         self.tela = tela
         try:

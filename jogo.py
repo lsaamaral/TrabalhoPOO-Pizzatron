@@ -7,7 +7,7 @@ from Telas.login_tela import LoginTela
 from Telas.menu_tela import MenuTela
 from Telas.jogo_tela import JogoTela
 from Telas.final_tela import FinalTela
-from Interfaces.game_interface import InterfaceJogo
+from Interfaces.jogo_interface import InterfaceJogo
 
 class Jogo(InterfaceJogo):
     def __init__(self):

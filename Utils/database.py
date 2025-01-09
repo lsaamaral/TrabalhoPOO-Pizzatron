@@ -1,8 +1,9 @@
 from pymongo import MongoClient
 import bcrypt
 from datetime import datetime
+from Interfaces.database_interface import InterfaceDatabase
 
-class BancoDeDados():
+class BancoDeDados(InterfaceDatabase):
     def __init__(self, uri, db_name):
         try:
             self.cliente = MongoClient(uri)

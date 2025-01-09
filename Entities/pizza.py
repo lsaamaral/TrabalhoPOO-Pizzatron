@@ -1,5 +1,7 @@
 import pygame
 import random
+from Interfaces.pizzausuario_interface import InterfacePizzaUsuario
+from Interfaces.pizzacardapio_interface import InterfacePizzaCardapio
 
 class Pizza():
     def __init__(self):
@@ -16,7 +18,7 @@ class Pizza():
 
 
 
-class PizzaCardapio(Pizza):
+class PizzaCardapio(Pizza, InterfacePizzaCardapio):
     def __init__(self, progresso):
         '''
         Classe para a pizza do cardapio
@@ -70,7 +72,7 @@ class PizzaCardapio(Pizza):
 
     def desenhar(self, tela):
         '''
-        Desenha o cardapio da tela
+        Desenha o cardapio na tela
         '''
         fonte_titulo = pygame.font.Font("Assets/BurbankSmallBold.ttf", 26)
         fonte_texto = pygame.font.Font("Assets/BurbankSmallBold.ttf", 20)
@@ -120,7 +122,7 @@ class PizzaCardapio(Pizza):
         tela.blit(texto_moedas, (910, 290))
 
 
-class PizzaUsuario(Pizza):
+class PizzaUsuario(Pizza, InterfacePizzaUsuario):
     def __init__(self):
         self.borda_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Borda.png"), (295, 192))
         self.massa_sprite = pygame.transform.scale(pygame.image.load("Assets/Pizza/Massa.png"), (295, 192))
@@ -216,7 +218,7 @@ class PizzaUsuario(Pizza):
                     self.molho_completo = True
                     self.preencher_completo(self.molho_tipo)
 
-    def preencher_completo(self,molho):
+    def preencher_completo(self, molho):
         if molho == "tomate":
             self.molho_surface.fill((0, 0, 0, 0))
             pygame.draw.ellipse(self.molho_surface, (255, 77, 0, 255), (21, 12, 270, 165))

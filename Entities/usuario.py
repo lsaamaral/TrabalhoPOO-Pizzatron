@@ -1,4 +1,6 @@
-class Usuario():
+from Interfaces.usuario_interface import InterfaceUsuario
+
+class Usuario(InterfaceUsuario):
     def __init__(self, banco, login, senha):
         self.banco = banco
         self.login = login

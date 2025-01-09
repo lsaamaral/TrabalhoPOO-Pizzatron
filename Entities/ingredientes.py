@@ -1,6 +1,7 @@
 import pygame
+from Interfaces.ingredientes_interface import InterfaceIngredientes
 
-class IngredientesManager:
+class IngredientesManager(InterfaceIngredientes):
     def __init__(self, tela):
         self.tela = tela
         self.novo_tamanho = (210, 250)

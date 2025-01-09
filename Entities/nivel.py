@@ -1,7 +1,8 @@
 import pygame
 from Entities.pizza import *
+from Interfaces.nivel_interface import InterfaceNivel
 
-class Nivel():
+class Nivel(InterfaceNivel):
     def __init__(self, tela):
         self.tela = tela
         self.velocidade = 5
@@ -68,17 +69,6 @@ class Nivel():
 
     def desenhar_pizza_usuario(self):
         self.pizza_usuario.desenhar(self.tela)
-
-    def executar(self, mouse_pos, mouse_held, ingrediente_atual):
-        self.atualizar_esteira()
-        self.atualizar_pizza_usuario(mouse_pos, mouse_held, ingrediente_atual)
-
-        self.desenhar_esteira()
-        self.desenhar_pizza_usuario()
-        self.pizza_cardapio.desenhar(self.tela)
-
-        pygame.display.flip()
-        self.clock.tick(60)
 
     def comparar_pizzas(self):
         iguais = True 
