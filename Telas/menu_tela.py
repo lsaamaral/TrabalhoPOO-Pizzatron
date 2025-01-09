@@ -6,6 +6,7 @@ class MenuTela(Tela):
         self.tela = tela
         self.usuario = usuario
         self.fonte = pygame.font.Font("Assets/BurbankSmallBold.ttf", 30)
+        self.fonte_pontuacoes = pygame.font.Font("Assets/BurbankSmallBold.ttf", 28)
         self.background = pygame.image.load("Assets/Backgrounds/MenuJogo.png")
         self.background = pygame.transform.scale(self.background, (1200, 750))
         self.melhores_coins = self.usuario.banco.melhores_coins(self.usuario.id)
@@ -44,7 +45,7 @@ class MenuTela(Tela):
         else:
             y = 50
             for coins, data in self.melhores_coins:
-                texto = self.fonte.render(f"Coins: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (105, 0, 0))
+                texto = self.fonte_pontuacoes.render(f"Moedas: {coins} - Data: {data.strftime('%d/%m/%Y %H:%M:%S')}", True, (105, 0, 0))
                 self.tela.blit(texto, (20, y))
                 y += 40
 
