@@ -9,7 +9,7 @@ from Telas.jogo_tela import JogoTela
 from Telas.final_tela import FinalTela
 from Interfaces.game_interface import InterfaceJogo
 
-class Game(InterfaceJogo):
+class Jogo(InterfaceJogo):
     def __init__(self):
         pygame.init()
         self.tela = pygame.display.set_mode((1200, 750))
@@ -19,7 +19,7 @@ class Game(InterfaceJogo):
 
         banco = BancoDeDados(
             "mongodb+srv://usertrabpoo:pizzatron3000@cluster0.ve3le.mongodb.net/?retryWrites=true&w=majority",
-            "jogo"
+            "jogo"  
         )
   
         self.tela_atual = "login"

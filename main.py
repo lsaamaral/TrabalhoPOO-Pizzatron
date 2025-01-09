@@ -1,7 +1,7 @@
-from jogo import Game
+from jogo import Jogo
 
 def main():
-    game = Game()
+    game = Jogo()
     game.run()
 
 main()
