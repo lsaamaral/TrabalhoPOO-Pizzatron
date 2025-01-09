@@ -1,6 +1,7 @@
 import pygame
+from Telas.tela import Tela
 
-class FinalTela:
+class FinalTela(Tela):
     def __init__(self, tela, resultado, pizzas_feitas, moedas_totais):
         self.tela = tela
         self.resultado = resultado
