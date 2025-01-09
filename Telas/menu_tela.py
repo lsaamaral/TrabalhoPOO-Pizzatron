@@ -25,17 +25,17 @@ class MenuTela(Tela):
         self.tela.blit(self.botao_sprite, (self.botao_play.x, self.botao_play.y))
         self.tela.blit(self.botao_sprite, (self.botao_sair.x, self.botao_sair.y))
 
-        play_texto = self.fonte.render("Play", True, (105, 0, 0))
-        sair_texto = self.fonte.render("Quit", True, (105, 0, 0))
+        play_texto = self.fonte.render("Jogar", True, (105, 0, 0))
+        sair_texto = self.fonte.render("Sair", True, (105, 0, 0))
 
         if hover_play:
-            borda_play = self.fonte.render("Play", True, (255, 255, 255))
-            self.tela.blit(borda_play, (self.botao_play.x + 73, self.botao_play.y + 8))
+            borda_play = self.fonte.render("Jogar", True, (255, 255, 255))
+            self.tela.blit(borda_play, (self.botao_play.x + 63, self.botao_play.y + 8))
         if hover_sair:
-            borda_sair = self.fonte.render("Quit", True, (255, 255, 255))
+            borda_sair = self.fonte.render("Sair", True, (255, 255, 255))
             self.tela.blit(borda_sair, (self.botao_sair.x + 73, self.botao_sair.y + 8))
 
-        self.tela.blit(play_texto, (self.botao_play.x + 70, self.botao_play.y + 5))
+        self.tela.blit(play_texto, (self.botao_play.x + 60, self.botao_play.y + 5))
         self.tela.blit(sair_texto, (self.botao_sair.x + 70, self.botao_sair.y + 5))
 
         if not self.melhores_coins:
