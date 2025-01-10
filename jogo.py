@@ -12,9 +12,17 @@ from Interfaces.jogo_interface import InterfaceJogo
 class Jogo(InterfaceJogo):
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()  # Inicializa o mixer de áudio do pygame
         self.tela = pygame.display.set_mode((1200, 750))
         pygame.display.set_caption("Pizzatron 3000")
         self.clock = pygame.time.Clock()
+        
+        # Carregar as músicas de cada tela
+        self.musica_login = "Assets/Sounds/GEGAGEDIGEDAGEDAG.mp3"
+        self.musica_jogo = "Assets/Sounds/Sounds_Music.mp3"
+
+        self.tocar_musica(self.musica_login)
+
         self.pos_mouse = pygame.mouse.get_pos()
 
         banco = BancoDeDados(
@@ -28,6 +36,13 @@ class Jogo(InterfaceJogo):
         self.menu_tela = None
         self.jogo_tela = None
         self.final_tela = None
+    
+    def tocar_musica(self, caminho_musica):
+        """Para a música atual e toca a nova música."""
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(caminho_musica)
+        pygame.mixer.music.set_volume(0.5)  # Ajustar volume (0.0 a 1.0)
+        pygame.mixer.music.play(-1)  # Tocar em loop
 
     def run(self):
         while True:
@@ -59,9 +74,17 @@ class Jogo(InterfaceJogo):
                 if acao == "play":
                     self.tela_atual = "jogo"
                     self.jogo_tela = JogoTela(self.tela)
+
+                    # Trocar a música ao entrar no jogo
+                    self.tocar_musica(self.musica_jogo)
+
                 elif acao == "logout":
                     self.usuario = None
                     self.tela_atual = "login"
+
+                    # Voltar para a música da tela de login
+                    self.tocar_musica(self.musica_login)
+
             elif self.tela_atual == "jogo" and self.jogo_tela:
                 self.jogo_tela.handle_input(evento)
 
@@ -78,6 +101,9 @@ class Jogo(InterfaceJogo):
                     if self.usuario:
                         self.usuario.registrar_coins(self.final_tela.moedas_totais)
                     self.quit()
+
+                    # Voltar para a música do menu (opcional)
+                    self.tocar_musica(self.musica_login)
 
 
     def update(self):

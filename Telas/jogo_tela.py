@@ -47,6 +47,18 @@ class JogoTela(Tela):
         self.molhohot_pos = (60, 200)
         self.suportetomatefrente_pos = (15, 340)
 
+        #Sons do Jogo
+        self.som_pegar_molho_Hot = pygame.mixer.Sound("Assets/Sounds/Device_Hot.mp3")
+        self.som_pegar_molho_Hot.set_volume(0.5)  # Ajuste o volume se necessário
+        self.som_pegar_molho_tomate = pygame.mixer.Sound("Assets/Sounds/Device_Pizza.mp3")
+        self.som_pegar_molho_tomate.set_volume(0.5)  # Ajuste o volume se necessário
+        self.som_molho_tomate_drop = pygame.mixer.Sound("Assets/Sounds/Use_Pizza.mp3")
+        self.som_molho_tomate_drop.set_volume(0.5)  # Ajuste o volume se necessário
+        self.som_molho_Hot_drop = pygame.mixer.Sound("Assets/Sounds/Use_Hot.mp3")
+        self.som_molho_Hot_drop.set_volume(0.5)  # Ajuste o volume se necessário
+        self.som_pegar_cubas = pygame.mixer.Sound("Assets/Sounds/Splat.mp3")
+        self.som_pegar_cubas.set_volume(0.5)  # Ajusta o volume se necessário
+
         # Posicao dos molhos
         self.rect_molhotomate = pygame.Rect(
             self.molhotomate_pos[0] + 100,  # Esquerda/direita
@@ -140,7 +152,9 @@ class JogoTela(Tela):
             
             if self.rect_molhotomate.collidepoint(pos_mouse):
                 self.carregando_molhotomate = True
+                self.som_pegar_molho_tomate.play()
             elif self.rect_molhohot.collidepoint(pos_mouse):
+                self.som_pegar_molho_Hot.play()
                 self.carregando_molhohot = True
             
 
@@ -163,6 +177,7 @@ class JogoTela(Tela):
                             )
                             self.nivel.pizza_usuario.modificado = True
                     elif nome_ingrediente in self.nivel.pizza_usuario.ingredientes:
+                        self.som_pegar_cubas.play()
                         if isinstance(self.nivel.pizza_usuario.ingredientes[nome_ingrediente], list):
                             pos_relativa = (
                                 pos_mouse[0] - self.nivel.pizza_usuario.posicao[0],
@@ -178,15 +193,29 @@ class JogoTela(Tela):
 
     def update(self):
         self.nivel.pizza_usuario.mover()
+
+        # Molho de tomate
         if self.carregando_molhotomate:
             pos_mouse = pygame.mouse.get_pos()
-            self.nivel.pizza_usuario.pintar(pos_mouse,"tomate")
+            self.nivel.pizza_usuario.pintar(pos_mouse, "tomate")
+            if not self.som_molho_tomate_drop.get_num_channels():
+                self.som_molho_tomate_drop.play(loops=-1)  # Toca o som em loop
+        else:
+            self.som_molho_tomate_drop.stop()  # Para o som quando não está carregando
+
+        # Molho hot
         if self.carregando_molhohot:
             pos_mouse = pygame.mouse.get_pos()
             self.nivel.pizza_usuario.pintar(pos_mouse,"hot")
+            if not self.som_molho_Hot_drop.get_num_channels():
+                self.som_molho_Hot_drop.play(loops=-1)  # Toca o som em loop
+        else:
+            self.som_molho_Hot_drop.stop()
+
         if self.nivel.pizza_usuario.modificado:
             self.nivel.comparar_pizzas()
             self.nivel.pizza_usuario.modificado = False
+            
         if self.nivel.pizza_usuario.esta_fora_da_tela():
             self.nivel.comparar_pizzas_final()
             self.nivel.pizza_usuario.velocidade = self.nivel.velocidade_original
