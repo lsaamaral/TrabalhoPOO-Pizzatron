@@ -9,6 +9,7 @@ class LoginTela(Tela):
         self.fonte = pygame.font.Font("Assets/BurbankSmallBold.ttf", 32)
         self.background = pygame.image.load("Assets/Backgrounds/MenuLogin.png")
         self.background = pygame.transform.scale(self.background, (1200, 750))
+        self.botao_inicio = pygame.Rect(300, 400, 200, 50) 
         self.input_ativo = {"login": False, "senha": False}
         self.inputs = {"login": "", "senha": ""}
         self.msg_erro = ""
@@ -19,11 +20,25 @@ class LoginTela(Tela):
         senha_box = self.fonte.render(f"Senha: {'*' * len(self.inputs['senha'])}", True, (0, 0, 0))
         erro_msg = self.fonte.render(self.msg_erro, True, (255, 0, 0))
 
-        pygame.draw.rect(self.tela, (255, 255, 255), (300, 200, 300, 70))
-        pygame.draw.rect(self.tela, (255, 255, 255), (300, 300, 300, 70))
+        # Desenhar o login box com borda arredondada
+        pygame.draw.rect(self.tela, (0, 0, 0), (300, 200, 300, 70), border_radius=15)  # Borda preta
+        pygame.draw.rect(self.tela, (255, 255, 255), (304, 204, 292, 62), border_radius=15)  # Fundo branco
         self.tela.blit(login_box, (310, 210))
+
+        # Desenhar o senha box com borda arredondada
+        pygame.draw.rect(self.tela, (0, 0, 0), (300, 300, 300, 70), border_radius=15)  # Borda preta
+        pygame.draw.rect(self.tela, (255, 255, 255), (304, 304, 292, 62), border_radius=15)  # Fundo branco
         self.tela.blit(senha_box, (310, 310))
-        self.tela.blit(erro_msg, (300, 400))
+
+        # Mensagem de erro
+        self.tela.blit(erro_msg, (300, 600))
+
+        # Desenhar o botão arredondado com borda preta
+        pygame.draw.rect(self.tela, (0, 0, 0), self.botao_inicio, border_radius=15)  # Borda preta
+        pygame.draw.rect(self.tela, (255, 255, 255), self.botao_inicio.inflate(-4, -4), border_radius=35)  # Fundo branco
+        inicio_texto = self.fonte.render("Menu", True, (0, 0, 0))
+        self.tela.blit(inicio_texto, (self.botao_inicio.x + 50, self.botao_inicio.y + 10))
+
 
     def handle_input(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
@@ -37,16 +52,26 @@ class LoginTela(Tela):
                 self.input_ativo = {"login": False, "senha": False}
 
         if evento.type == pygame.KEYDOWN:
-            if self.input_ativo["login"]:
-                if evento.key == pygame.K_BACKSPACE:
+            #lista de caracteres validos (apenas letras e numeros):
+            caracteres_validos = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                  "0123456789")
+            #permite apagar o que está sendo escrito:
+            if evento.key == pygame.K_BACKSPACE:
+                if self.input_ativo["login"]:
                     self.inputs["login"] = self.inputs["login"][:-1]
-                elif evento.unicode.isalnum() or evento.unicode in "@._":
-                    self.inputs["login"] += evento.unicode
-            elif self.input_ativo["senha"]:
-                if evento.key == pygame.K_BACKSPACE:
+                elif self.input_ativo["senha"]:
                     self.inputs["senha"] = self.inputs["senha"][:-1]
-                elif evento.unicode.isalnum() or evento.unicode in "@._":
+            #permite escrever somente os caracteres validos:
+            elif evento.unicode in caracteres_validos:
+                if self.input_ativo["login"]:
+                    self.inputs["login"] += evento.unicode
+                elif self.input_ativo["senha"]:
                     self.inputs["senha"] += evento.unicode
+        
+   
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            if self.botao_inicio.collidepoint(evento.pos):
+                return "play"
 
     def authenticate(self):
         usuario = Usuario(self.banco, self.inputs["login"], self.inputs["senha"])
