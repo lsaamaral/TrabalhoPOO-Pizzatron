@@ -1,7 +1,8 @@
 import pygame
 from Telas.tela import Tela
+from Interfaces.finalmenutela_interface import InterfaceFinalMenuTela
 
-class MenuTela(Tela):
+class MenuTela(Tela, InterfaceFinalMenuTela):
     def __init__(self, tela, usuario):
         self.tela = tela
         self.usuario = usuario
@@ -40,7 +41,7 @@ class MenuTela(Tela):
         self.tela.blit(sair_texto, (self.botao_sair.x + 70, self.botao_sair.y + 5))
 
         if not self.melhores_coins:
-            texto = self.fonte.render("Nenhuma pontuacao registrada", True, (0, 0, 0))
+            texto = self.fonte.render("Nenhuma pontuacao registrada", True, (105, 0, 0))
             self.tela.blit(texto, (20, 20))
         else:
             y = 50

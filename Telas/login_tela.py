@@ -1,8 +1,9 @@
 import pygame
 from Entities.usuario import Usuario
 from Telas.tela import Tela
+from Interfaces.logintela_interface import InterfaceLoginTela
 
-class LoginTela(Tela):
+class LoginTela(Tela, InterfaceLoginTela):
     def __init__(self, tela, banco):
         self.tela = tela
         self.banco = banco

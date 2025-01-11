@@ -4,8 +4,9 @@ from Entities.molho import Molho
 from Entities.nivel import Nivel
 from Entities.pizza import *
 from Entities.ingredientes import IngredientesManager
+from Interfaces.jogotela_interface import InterfaceJogoTela
 
-class JogoTela(Tela):
+class JogoTela(Tela, InterfaceJogoTela):
     def __init__(self, tela):
         self.tela = tela
 

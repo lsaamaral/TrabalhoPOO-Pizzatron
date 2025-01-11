@@ -1,7 +1,8 @@
 import pygame
 from Telas.tela import Tela
+from Interfaces.finalmenutela_interface import InterfaceFinalMenuTela
 
-class FinalTela(Tela):
+class FinalTela(Tela, InterfaceFinalMenuTela):
     def __init__(self, tela, resultado, pizzas_feitas, moedas_totais):
         self.tela = tela
         self.resultado = resultado
