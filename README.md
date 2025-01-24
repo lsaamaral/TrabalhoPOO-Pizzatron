@@ -10,7 +10,14 @@ Participantes: Bruno Amaral, Guilherme Paredes, Isabella Amaral e Julia Camelo
 [PDF com a documentação completa](Docs/UML_Pizzatron3000.pdf)
 
 # Fluxogramas
-...
+![Fluxograma do funcionamento do jogo](Docs/fluxograma_jogo.png)
+
+![Fluxograma do nível](Docs/fluxograma_nivel.png)
+
+![Fluxograma da pizza do cardápio](Docs/fluxograma_pizzacardapio.png)
+
+![Fluxograma da pizza do usuário](Docs/fluxograma_pizzausuario.png)
+
 # Requisitos
 Para a base de dados funcionar, é necessário que a máquina esteja conectada à internet.
 
