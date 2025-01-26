@@ -77,14 +77,14 @@ class LoginTela(Tela, InterfaceLoginTela):
     def authenticate(self):
         usuario = Usuario(self.banco, self.inputs["login"], self.inputs["senha"])
         usuario.fazer_login()
-        if usuario.id:
+        if usuario.get_id():
             return usuario
         else:
             # Tentativa de cadastrar o usuario caso a conta nao exista
             print("Usuario nao encontrado. Tentando cadastrar...")
             usuario.cadastrar()
             usuario.fazer_login()  # Tenta login depois do cadastro
-            if usuario.id:
+            if usuario.get_id():
                 return usuario
             else:
                 self.msg_erro = "Erro ao cadastrar ou autenticar usuario."
