@@ -10,7 +10,7 @@ class MenuTela(Tela, InterfaceFinalMenuTela):
         self.fonte_pontuacoes = pygame.font.Font("Assets/BurbankSmallBold.ttf", 28)
         self.background = pygame.image.load("Assets/Backgrounds/MenuJogo.png")
         self.background = pygame.transform.scale(self.background, (1200, 750))
-        self.melhores_coins = self.usuario.banco.melhores_coins(self.usuario.get_id())
+        self.melhores_coins = self.usuario.banco.melhores_coins(self.usuario.id)
 
         self.botao_sprite = pygame.transform.scale(pygame.image.load("Assets/Botoes/Start.png"), (200, 50))
 

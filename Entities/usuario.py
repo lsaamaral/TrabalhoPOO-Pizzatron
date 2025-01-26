@@ -7,40 +7,44 @@ class Usuario(InterfaceUsuario):
         self.__senha = senha
         self.__id = None
     
-    def get_login(self):
+    @property
+    def login(self):
         return self.__login
     
-    def get_senha(self):
+    @property
+    def senha(self):
         return self.__senha
     
-    def get_id(self):
+    @property
+    def id(self):
         return self.__id
     
-    def set_id(self, a):
+    @id.setter
+    def id(self, a):
         self.__id = a  
                
     def cadastrar(self):
-        if not self.banco.cadastrar_usuario(self.get_login(), self.get_senha()):
+        if not self.banco.cadastrar_usuario(self.login, self.senha):
             print("Nao foi possivel cadastrar o usuario")
 
     def fazer_login(self):
-        self.set_id(self.banco.verificar_login(self.get_login(), self.get_senha()))
-        if self.get_id():
-            print(f"Ola {self.get_login()}!")
+        self.id = self.banco.verificar_login(self.login, self.senha)
+        if self.id:
+            print(f"Ola {self.login}!")
         else:
             print("Login ou senha incorretos. Tente de novo")
 
     def registrar_coins(self, coins):
-        if self.get_id():
-            self.banco.armazenar_coins(self.get_id(), coins)
+        if self.id:
+            self.banco.armazenar_coins(self.id, coins)
         else:
             print("Usuario nao esta logado")
 
     def exibir_melhores_coins(self, limite=5):
-        if self.get_id():
-            melhores_coins = self.banco.melhores_coins(self.get_id(), limite)
+        if self.id:
+            melhores_coins = self.banco.melhores_coins(self.id, limite)
             if melhores_coins:
-                print(f"Melhores pontuacoes de {self.get_login()}:")
+                print(f"Melhores pontuacoes de {self.login}:")
                 for coins, _ in melhores_coins:
                     print(f"Coins: {coins}")
             else:
