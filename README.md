@@ -7,7 +7,7 @@ Participantes: Bruno Amaral, Guilherme Paredes, Isabella Amaral e Julia Camelo
 
 # Diagrama UML
 
-[PDF com a documentação completa](Docs/UML_Pizzatron3000.pdf)
+[PDF com a documentação completa](Docs/diagramauml_pizzatron3000.pdf)
 
 # Fluxogramas
 Fluxograma do funcionamento do jogo:
